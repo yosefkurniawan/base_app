@@ -12,8 +12,9 @@
         </a>
     </li>
 
+    <?php $count = count($this->breadcrumb->breadcrumb) ?>
     <?php foreach ($this->breadcrumb->breadcrumb as $crumb): ?>
-        <?php if (!empty($crumb['url']) && count($this->breadcrumb) > 1): ?>
+        <?php if (!empty($crumb['url']) && $count > 1): ?>
         <li class="crumb-link">
             <a href="<?php echo $crumb['url'] ?>"><?php echo $crumb['title'] ?></a>
         </li>

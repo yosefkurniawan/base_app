@@ -8,11 +8,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Font CSS (Via CDN) -->
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800">
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Roboto:400,500,700,300">
+    <link rel="stylesheet" type="text/css" href="<?php echo skin_url('assets/fonts/open-sans.css') ?>">
+    <link rel="stylesheet" type="text/css" href="<?php echo skin_url('assets/fonts/roboto.css') ?>">
 
     <!-- Theme CSS -->
     <link rel="stylesheet" type="text/css" href="<?php echo skin_url('assets/skin/default_skin/css/theme.css') ?>">
+    <link rel="stylesheet" type="text/css" href="<?php echo skin_url('assets/skin/default_skin/css/theme_custom.css') ?>">
 
     <!-- Admin Forms CSS -->
     <link rel="stylesheet" type="text/css" href="<?php echo skin_url('assets/admin-tools/admin-forms/css/admin-forms.css') ?>">
@@ -21,10 +22,10 @@
     <link rel="stylesheet" type="text/css" href="<?php echo skin_url('assets/admin-tools/admin-plugins/admin-dock/dockmodal.css') ?>">
 
     <!-- Datatables CSS -->
-    <link rel="stylesheet" type="text/css" href="<?php echo skin_url() ?>vendor/plugins/datatables/media/css/dataTables.bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo skin_url('vendor/plugins/datatables/media/css/dataTables.bootstrap.css') ?>">
 
     <!-- Datatables Editor CSS -->
-    <link rel="stylesheet" type="text/css" href="<?php echo skin_url() ?>vendor/plugins/datatables/extensions/Editor/css/dataTables.editor.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo skin_url('vendor/plugins/datatables/extensions/Editor/css/dataTables.editor.css') ?>">
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="<?php echo skin_url('img/favicon.ico') ?>">

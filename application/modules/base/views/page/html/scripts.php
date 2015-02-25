@@ -7,7 +7,7 @@
 <script type="text/javascript" src="<?php echo skin_url('assets/js/bootstrap/bootstrap.min.js') ?>"></script>
 
 <!-- Sparklines CDN -->
-<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery-sparklines/2.1.2/jquery.sparkline.min.js"></script>
+<script type="text/javascript" src="<?php echo skin_url('assets/js/jquery.sparkline.min.js') ?>"></script>
 
 <!-- Holder js  -->
 <script type="text/javascript" src="<?php echo skin_url('assets/js/bootstrap/holder.min.js') ?>"></script>
