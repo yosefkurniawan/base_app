@@ -1,0 +1,18 @@
+/*
+ * Author: Jojo
+ * Description:
+ * - This is custom css for theme
+ */
+
+/* ======================================================= */
+/*  TABLE & DATATABLES
+/* ======================================================= */
+
+table .center {
+	text-align: center;
+}
+
+table.dataTable thead th {
+	background-color: #fff;
+}
+
