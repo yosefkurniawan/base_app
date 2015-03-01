@@ -68,8 +68,23 @@ class User_model extends CI_Model {
     function delete() {
         $user_id  = $this->input->post('id');
         
-        foreach ($user_id as $row) {
-            $this->db->where('user_id', $row);
+        if (is_array($user_id)) {
+            $count_success = 0;
+            $count_failed = 0;
+            $result = array();
+            foreach ($user_id as $row) {
+                $this->db->where('user_id', $row);
+                if ($this->db->delete('core_user')) {
+                    $count_success++;
+                }else{
+                    $count_failed++;
+                }
+            }
+            $result['deleted'] = $count_success;
+            $result['not_deleted'] = $count_failed;
+            return $result;
+        }else{
+            $this->db->where('user_id', $user_id);
             return $this->db->delete('core_user');
         }
     }

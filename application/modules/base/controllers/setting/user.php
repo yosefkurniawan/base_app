@@ -42,8 +42,6 @@ class User extends Base {
         }else{
             // nothing to do
         }
-
-        $this->getdatatables();
     }
 
     public function get($user_id=null){
