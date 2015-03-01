@@ -58,7 +58,7 @@
 
                 <div class="section">
                     <label for="user_st" class="block mt15 switch switch-primary">
-                        <input type="checkbox" name="user_st" id="user_st" value="user_st" checked="">
+                        <input type="checkbox" name="user_st" id="user_st" value="1" checked="">
                         <label for="user_st" data-on="ON" data-off="OFF"></label>
                         <span>Status</span>
                     </label>
