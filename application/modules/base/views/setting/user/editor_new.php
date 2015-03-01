@@ -1,5 +1,4 @@
-<div id="modal-user-form" class="popup-basic admin-form mfp-with-anim mfp-hide">
-<!-- <div id="modal-user-form" class="admin-form"> -->
+<div id="modal-create-user-form" class="popup-basic admin-form mfp-with-anim mfp-hide">
 
     <div class="panel">
         <div class="panel-heading">
@@ -79,7 +78,7 @@
                 <div class="section">
                     <label for="user_pass" class="field prepend-icon">
                         <input type="text" name="user_pass" id="user_pass" class="gui-input" placeholder="Password...">
-                        <label for="user_pass" class="field-icon"><i class="fa fa-key"></i></label>
+                        <label for="user_pass" class="field-icon"><i class="fa fa-lock"></i></label>
                     </label>
                 </div>
 
@@ -115,8 +114,10 @@
             /* ----------------------------------------- */
             /* Validation
             /* ----------------------------------------- */
-
-            $j( "#create-user-form" ).validate({
+            
+            var form = $j( "#create-user-form" );
+            
+            form.validate({
                 
                         /* @validation states + elements 
                         ------------------------------------------- */
@@ -199,6 +200,10 @@
                            } else {
                                     error.insertAfter(element.parent());
                            }
+                        },
+                        removehighlights: function() {
+                            form.find('.field').removeClass(this.errorClass+' '+this.validClass);
+                            form.find('em.'+this.errorClass).remove();
                         }
                                 
                 }); 
