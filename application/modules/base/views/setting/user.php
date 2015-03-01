@@ -23,23 +23,23 @@
 
 <?php echo $this->load->view('user/editor_new') ?>
 
-<!-- Datatables -->
+<!-- Page Plugins -->
 <script type="text/javascript" src="<?php echo skin_url() ?>vendor/plugins/datatables/media/js/jquery.dataTables.js"></script>
-<!-- Datatables Tabletools addon -->
 <script type="text/javascript" src="<?php echo skin_url() ?>vendor/plugins/datatables/extensions/TableTools/js/dataTables.tableTools.min.js"></script>
-
-<!-- Datatables Bootstrap Modifications  -->
 <script type="text/javascript" src="<?php echo skin_url() ?>vendor/plugins/datatables/media/js/dataTables.bootstrap.js"></script>
+<script type="text/javascript" src="<?php echo skin_url() ?>assets/admin-tools/admin-forms/js/advanced/steps/jquery.steps.js"></script>
+<script type="text/javascript" src="<?php echo skin_url() ?>assets/admin-tools/admin-forms/js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="<?php echo skin_url() ?>assets/admin-tools/admin-forms/js/additional-methods.min.js"></script>
 
 <script>
 
 (function($j){
 
-    /* ============================================================ */
-    /* Datatables script                                            
-    /* ============================================================ */
-
     $j(document).ready(function() {
+
+        /* ----------------------------------------- */
+        /* Datatables Preparation
+        /* ----------------------------------------- */
 
         var table = $j('#core_user').DataTable( {
             "dom": '<"dt-panelmenu clearfix"Tfr>t<"dt-panelfooter clearfix"ip>',
@@ -61,7 +61,6 @@
                 }
             ],
             "tableTools": {
-                "sRowSelect": "os",
                 "aButtons": [
                     {
                         "sExtends": "text",
@@ -97,6 +96,43 @@
             },
             "iDisplayLength": 20
         } );
+    
+        /* ----------------------------------------- */
+        /* Editor - Submit
+        /* ----------------------------------------- */
+
+        $j('#create-user-form').submit(function(e){
+            e.preventDefault(); //STOP default action
+
+            var formURL = '<?php echo base_url()."base/setting/user/submit" ?>';                
+            var postData = {};
+
+            var data = {};
+            $j.each($j(this).serializeArray(), function() {
+                data[this.name] = this.value;
+            });
+
+            postData.data = data;
+            postData.action = 'create';
+
+            $.ajax({
+                url : formURL,
+                type: "POST",
+                data : postData,
+                success:function(data, textStatus, jqXHR) 
+                {
+                    console.log('success');
+                    console.log(data);
+                    table.ajax.reload()
+                },
+                error: function(jqXHR, textStatus, errorThrown) 
+                {
+                    console.log('fail');
+                    console.log(textStatus);
+                }
+            });
+        })
+
         
     });
 
