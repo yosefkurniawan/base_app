@@ -15,8 +15,14 @@
     <link rel="stylesheet" type="text/css" href="<?php echo skin_url('assets/skin/default_skin/css/theme.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?php echo skin_url('assets/skin/default_skin/css/theme_custom.css') ?>">
 
+    <!-- Vendor CSS -->
+    <link rel="stylesheet" type="text/css" href="<?php echo skin_url('vendor/plugins/magnific/magnific-popup.css') ?>">
+
     <!-- Admin Forms CSS -->
     <link rel="stylesheet" type="text/css" href="<?php echo skin_url('assets/admin-tools/admin-forms/css/admin-forms.css') ?>">
+
+    <!-- Admin Modals CSS -->
+    <link rel="stylesheet" type="text/css" href="<?php echo skin_url('assets/admin-tools/admin-plugins/admin-modal/adminmodal.css') ?>">
 
     <!-- Admin Dock CSS -->
     <link rel="stylesheet" type="text/css" href="<?php echo skin_url('assets/admin-tools/admin-plugins/admin-dock/dockmodal.css') ?>">
