@@ -104,33 +104,39 @@
         $j('#create-user-form').submit(function(e){
             e.preventDefault(); //STOP default action
 
-            var formURL = '<?php echo base_url()."base/setting/user/submit" ?>';                
-            var postData = {};
+            if ($j(this).valid()) {
+                var formURL = '<?php echo base_url()."base/setting/user/submit" ?>';                
+                var postData = {};
 
-            var data = {};
-            $j.each($j(this).serializeArray(), function() {
-                data[this.name] = this.value;
-            });
+                var data = {};
+                $j.each($j(this).serializeArray(), function() {
+                    data[this.name] = this.value;
+                });
 
-            postData.data = data;
-            postData.action = 'create';
+                postData.data = data;
+                postData.action = 'create';
 
-            $.ajax({
-                url : formURL,
-                type: "POST",
-                data : postData,
-                success:function(data, textStatus, jqXHR) 
-                {
-                    console.log('success');
-                    console.log(data);
-                    table.ajax.reload()
-                },
-                error: function(jqXHR, textStatus, errorThrown) 
-                {
-                    console.log('fail');
-                    console.log(textStatus);
-                }
-            });
+                $j.ajax({
+                    url : formURL,
+                    type: "POST",
+                    data : postData,
+                    success:function(data, textStatus, jqXHR) 
+                    {
+                        console.log('success');
+                        console.log(data);
+                        table.ajax.reload();
+                        $j.magnificPopup.close();
+                        console.log($j('#create-user-form'));
+                        $j('#create-user-form').find("input[type=text], input[type=email], textarea").val("");
+                        $j('#create-user-form').find("input[type=checkbox]").attr('checked','checked');
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) 
+                    {
+                        console.log('fail');
+                        console.log(textStatus);
+                    }
+                });
+            };
         })
 
         

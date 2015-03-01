@@ -32,13 +32,13 @@ class User_model extends CI_Model {
         
         $data = array(
         'user_name' => $inputs['user_name'],
-        'user_pass' => $inputs['user_pass'],
+        'user_pass' => md5($inputs['user_pass']),
         'user_email' => $inputs['user_email'],
         'user_full_name' => $inputs['user_full_name'],
         'user_address' => $inputs['user_address'],
         'user_birthday' => $inputs['user_birthday'],
         'user_phone' => $inputs['user_phone'],
-        'user_st' => $inputs['user_st'],
+        'user_st' => (isset($inputs['user_st']) && $inputs['user_st'] == '1')? 'active' : 'inactive',
         'dc' => date('Y-m-d'),
         );
 
