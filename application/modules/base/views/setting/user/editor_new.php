@@ -107,6 +107,8 @@
             $j("#user_birthday").datepicker({
                 prevText: '<i class="fa fa-chevron-left"></i>',
                 nextText: '<i class="fa fa-chevron-right"></i>',
+                changeMonth: true,
+                changeYear: true,
                 showButtonPanel: false
             });
 

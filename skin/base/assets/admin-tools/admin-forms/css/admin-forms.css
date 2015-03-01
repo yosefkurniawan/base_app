@@ -2267,7 +2267,7 @@
   -o-box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
   border: 1px solid #DDD;
-  z-index: 1025 !important;
+  z-index: 1046 !important;
   text-align: center;
   color: #666;
 }

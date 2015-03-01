@@ -13,7 +13,6 @@
 
     <!-- Theme CSS -->
     <link rel="stylesheet" type="text/css" href="<?php echo skin_url('assets/skin/default_skin/css/theme.css') ?>">
-    <link rel="stylesheet" type="text/css" href="<?php echo skin_url('assets/skin/default_skin/css/theme_custom.css') ?>">
 
     <!-- Vendor CSS -->
     <link rel="stylesheet" type="text/css" href="<?php echo skin_url('vendor/plugins/magnific/magnific-popup.css') ?>">
@@ -32,6 +31,9 @@
 
     <!-- Datatables Editor CSS -->
     <link rel="stylesheet" type="text/css" href="<?php echo skin_url('vendor/plugins/datatables/extensions/Editor/css/dataTables.editor.css') ?>">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="<?php echo skin_url('assets/skin/default_skin/css/theme_custom.css') ?>">
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="<?php echo skin_url('img/favicon.ico') ?>">
