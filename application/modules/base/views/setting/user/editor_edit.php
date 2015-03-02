@@ -1,4 +1,4 @@
-<div id="modal-edit-user-form" class="popup-basic admin-form mfp-with-anim mfp-hide">
+<div id="modal-update-user-form" class="popup-basic admin-form mfp-with-anim mfp-hide">
 
     <div class="panel">
         <div class="panel-heading">
@@ -6,7 +6,8 @@
         </div>
         <!-- end .panel-heading section -->
 
-        <form method="post" action="/" id="edit-user-form">
+        <form method="post" action="/" id="update-user-form">
+            <input type="hidden" name="user_id" id="user_id" />
             
             <div class="panel-body p25">
 
@@ -40,7 +41,7 @@
 
                     <div class="col-md-6">
                         <label for="user_birthday" class="field prepend-icon">
-                            <input type="text" id="user_birthday" name="user_birthday" class="gui-input" placeholder="Birthday...">
+                            <input type="text" id="user_birthday" name="user_birthday" class="gui-input datepicker" placeholder="Birthday...">
                             <label for="user_birthday" class="field-icon"><i class="fa fa-calendar-o"></i>
                             </label>
                         </label>
@@ -65,7 +66,7 @@
                 <div class="section">
                     <div class="option-group field">
                         <label class="option option-primary">
-                            <input type="checkbox" id="change_password" name="change_password" value="">
+                            <input type="checkbox" id="change_password" name="change_password" value="1">
                             <span class="checkbox"></span>Change password
                         </label>
                     </div>
@@ -112,22 +113,10 @@
         $j(document).ready(function() {
 
             /* ----------------------------------------- */
-            /* Widget
-            /* ----------------------------------------- */
-
-            $j("#user_birthday").datepicker({
-                prevText: '<i class="fa fa-chevron-left"></i>',
-                nextText: '<i class="fa fa-chevron-right"></i>',
-                changeMonth: true,
-                changeYear: true,
-                showButtonPanel: false
-            });
-
-            /* ----------------------------------------- */
             /* Validation
             /* ----------------------------------------- */
 
-            var form = $j( "#edit-user-form" );
+            var form = $j( "#update-user-form" );
 
             form.validate({
             

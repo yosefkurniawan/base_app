@@ -40,7 +40,7 @@
 
                     <div class="col-md-6">
                         <label for="user_birthday" class="field prepend-icon">
-                            <input type="text" id="user_birthday" name="user_birthday" class="gui-input" placeholder="Birthday...">
+                            <input type="text" id="user_birthday" name="user_birthday" class="gui-input datepicker" placeholder="Birthday...">
                             <label for="user_birthday" class="field-icon"><i class="fa fa-calendar-o"></i>
                             </label>
                         </label>
@@ -98,18 +98,6 @@
     (function($j){
         
         $j(document).ready(function() {
-
-            /* ----------------------------------------- */
-            /* Widget
-            /* ----------------------------------------- */
-
-            $j("#user_birthday").datepicker({
-                prevText: '<i class="fa fa-chevron-left"></i>',
-                nextText: '<i class="fa fa-chevron-right"></i>',
-                changeMonth: true,
-                changeYear: true,
-                showButtonPanel: false
-            });
 
             /* ----------------------------------------- */
             /* Validation

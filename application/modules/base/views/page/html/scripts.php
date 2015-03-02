@@ -2,12 +2,13 @@
 <!-- jQuery -->
 <script type="text/javascript" src="<?php echo skin_url('vendor/jquery/jquery-1.11.1.min.js') ?>"></script>
 <script type="text/javascript" src="<?php echo skin_url('vendor/jquery/jquery_ui/jquery-ui.min.js') ?>"></script>
+<script type="text/javascript" src="<?php echo skin_url('vendor/jquery/jquery.class.js') ?>"></script>
 
 <!-- Bootstrap -->
 <script type="text/javascript" src="<?php echo skin_url('assets/js/bootstrap/bootstrap.min.js') ?>"></script>
 
 <!-- Sparklines CDN -->
-<script type="text/javascript" src="<?php echo skin_url('assets/js/jquery.sparkline.min.js') ?>"></script>
+<script type="text/javascript" src="<?php echo skin_url('vendor/jquery/jquery.sparkline.min.js') ?>"></script>
 
 <!-- Holder js  -->
 <script type="text/javascript" src="<?php echo skin_url('assets/js/bootstrap/holder.min.js') ?>"></script>
@@ -31,6 +32,9 @@
 <script type="text/javascript" src="<?php echo skin_url('assets/js/utility/utility.js') ?>"></script>
 <script type="text/javascript" src="<?php echo skin_url('assets/js/main.js') ?>"></script>
 <script type="text/javascript" src="<?php echo skin_url('assets/js/demo.js') ?>"></script>
+
+<!-- Helper -->
+<script type="text/javascript" src="<?php echo skin_url('assets/js/helpers/global.js') ?>"></script>
 
 <!-- Additional JS -->
 <?php if (isset($js)): ?>
