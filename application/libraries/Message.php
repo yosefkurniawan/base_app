@@ -85,6 +85,8 @@ class Message {
   }
 
   // render all msg
+  // - messages will be rendered as flashdata
+  // - they will be displayed on page refresh
   function render() {
     $output = '';
     $output .= $this->renderErrorMsg();
@@ -93,6 +95,18 @@ class Message {
 
     $CI =& get_instance();  
     return $CI->session->set_flashdata('messages',$output);
+  }
+
+  // render all msg as html
+  // - this function return messages as html block
+  // - can be used for ajax purpose
+  function render_html() {
+    $output = '';
+    $output .= $this->renderErrorMsg();
+    $output .= $this->renderWarningMsg();
+    $output .= $this->renderSuccessMsg();
+
+    return $output;
   }
 
 }

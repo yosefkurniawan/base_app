@@ -34,14 +34,16 @@ class User extends Base {
         $action = $this->input->post('action');
         
         if ($action == 'edit') {
-            $this->user_model->update();
+            $result = $this->user_model->update();
         }elseif ($action == 'create') {
-            $this->user_model->save();
+            $result = $this->user_model->save();
         }elseif ($action == 'remove') {
-            $this->user_model->delete();
+            $result = $this->user_model->delete();
         }else{
             // nothing to do
         }
+
+        echo json_encode($result);
     }
 
     public function get($user_id=null){

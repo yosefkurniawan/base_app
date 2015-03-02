@@ -16,6 +16,10 @@ table.dataTable thead th {
 	background-color: #fff;
 }
 
+.dt-panelmenu .DTTT .multiple_del_btn {
+	display: none;
+}
+
 /* ======================================================= */
 /*  WIDGET - datepicker
 /* ======================================================= */
