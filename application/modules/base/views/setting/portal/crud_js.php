@@ -27,32 +27,21 @@
             "ajax": datatables_url,
             "columns": [
                 {
-                    "data": "user_full_name"
+                    "data": "portal_name"
                 },
                 {
-                    "data": "user_name"
+                    "data": "portal_slug"
                 },
                 {
-                    "data": "user_email"
+                    "data": "portal_title"
                 },
-                {   
-                    "mDataProp": function(data, type, full) {
-                        if (data.user_st=='active')
-                            return "<div class='tm-tag tm-tag-success text-center'><i class='fa fa fa-check pr5'></i><b>"+data.user_st+"</b></div>";
-                        else if (data.user_st=='deleted')
-                            return "<div class='tm-tag tm-tag-danger text-center'><i class='fa fa-times-circle pr5'></i><b>"+data.user_st+"</b></div>";
-                        else if (data.user_st=='inactive')
-                            return "<div class='tm-tag text-center'><i class='fa fa-minus-circle pr5'></i><b>"+data.user_st+"</b></div>";
-                        else 
-                            return "<div class='tm-tag text-center'>undefined</div>";
-                    }
+                {
+                    "data": "portal_desc"
                 },
                 {   "sClass": "center", "bSortable": false, "bSearchable": false, "sWidth": "100px","mData": 0,
                     "mDataProp": function(data, type, full) {
-                        if (data.user_st!='deleted')
-                            return "<div class='btn-group'><button class='edit btn btn-sm btn-default' data-id='"+data.user_id+"' id='edit-"+data.user_id+"'><icon class='fa fa-pencil'></icon></button><button class='delete btn btn-sm btn-default' data-id='"+data.user_id+"' id='delete-"+data.user_id+"'><icon class='fa fa-trash-o'></icon></button></div>";
-                        else
-                            return "";
+                        var id = data.portal_id
+                        return "<div class='btn-group'><button class='edit btn btn-sm btn-default' data-id='"+id+"' id='edit-"+id+"'><icon class='fa fa-pencil'></icon></button><button class='delete btn btn-sm btn-default' data-id='"+id+"' id='delete-"+id+"'><icon class='fa fa-trash-o'></icon></button></div>";
                     }
                 }
             ],
@@ -83,7 +72,7 @@
                 ]
             },
             "fnCreatedRow": function (nRow, aData, iDataIndex) {
-                $j(nRow).attr('id', 'row-'+aData.user_id);
+                $j(nRow).attr('id', 'row-'+aData.portal_id);
             },
             "iDisplayLength": 20,
             "drawCallback": function() {
@@ -179,20 +168,12 @@
                 open: function() {
 
                     // set current data as default value
-                    $j(update_form).find('#user_id').val(data.user_id);
-                    $j(update_form).find('#user_full_name').val(data.user_full_name);
-                    $j(update_form).find('#user_email').val(data.user_email);
-                    $j(update_form).find('#user_phone').val(data.user_phone);
-                    $j(update_form).find('#user_birthday').val(data.user_birthday);
-                    $j(update_form).find('#user_address').val(data.user_address);
-                    if (data.user_st == 'active') {
-                        $j(update_form).find('#user_st').prop('checked',true);
-                    }else{
-                        $j(update_form).find('#user_st').prop('checked',false);
-                    }
+                    $j(update_form).find('#portal_id').val(data.portal_id);
+                    $j(update_form).find('#portal_name').val(data.portal_name);
+                    $j(update_form).find('#portal_slug').val(data.portal_slug);
+                    $j(update_form).find('#portal_title').val(data.portal_title);
+                    $j(update_form).find('#portal_desc').val(data.portal_desc);
 
-                    // hide edit password form
-                    $j('#edit-password-section').hide();   
                 }
             },
             midClick: true // allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source.
@@ -255,7 +236,7 @@
                 data[this.name] = this.value;
             });
 
-            postData.id = data.user_id;
+            postData.id = data.role_id;
             postData.data = data;
             postData.action = 'edit';
 
@@ -290,7 +271,7 @@
 
     // Fn: Delete data
     function delete_data(id,data) {
-        var r = confirm("Are you sure want to delete <?php echo strtolower($crud_for) ?> " + data.user_name + " ?");
+        var r = confirm("Are you sure want to delete <?php echo strtolower($crud_for) ?> \"" + data.portal_name + "\" ?");
         if (r) {
             var formURL = submit_url;
             var postData = {'action':'remove', 'id':id};

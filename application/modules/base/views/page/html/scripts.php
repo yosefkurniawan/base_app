@@ -41,6 +41,9 @@
 <!-- Helper -->
 <script type="text/javascript" src="<?php echo skin_url('assets/js/helpers/global.js') ?>"></script>
 
+<!-- General JS -->
+<script type="text/javascript" src="<?php echo skin_url('assets/js/global.js') ?>"></script>
+
 <!-- Additional JS -->
 <?php if (isset($js)): ?>
 	<?php foreach ($js as $value): ?>

@@ -29,6 +29,7 @@ class User extends Base {
 
         $this->data['submit_editor_url'] = base_url().$this->controller_path.'/submit';
         $this->data['getdatatables_url'] = base_url().$this->controller_path.'/getdatatables';
+        $this->data['crud_for']          = ucwords($this->crud_for);
 
         // Prepare the page
         $this->page_title   = "Manajemen ".ucwords($this->crud_for);

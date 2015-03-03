@@ -3,29 +3,44 @@ require_once( APPPATH . 'modules/base/controllers/base.php' );
 
 class Role extends Base {
 
+    // Start: customize CRUD parameters
+    private $crud_for   = 'role';
+    private $crud_table = 'core_role';
+    private $controller_path   = 'base/setting/role';
+    private $model_path        = 'base/setting/role_model';
+    private $view_path         = 'base/setting/role';
+    // End: customize CRUD parameters
+
+    private $model_name;
+    private $model;
+
     function __construct() {
         parent::__construct();
 
-        $this->load->model('base/setting/role_model','role_model',TRUE);
+        // load models
+        $this->model_name = array_pop(explode('/', $this->model_path));
+        $this->model = $this->load->model($this->model_path, $this->model_name, TRUE);
 
-        $this->breadcrumb->add('Role Management');
+        // add breadcrumbs
+        $this->breadcrumb->add('Manajemen '.ucwords($this->crud_for));
     }
 
     public function index() {
 
-        $this->data['submit_editor_url'] = base_url().'base/setting/user/submit';
-        $this->data['getdatatables_url'] = base_url().'base/setting/user/getdatatables';
+        $this->data['submit_editor_url'] = base_url().$this->controller_path.'/submit';
+        $this->data['getdatatables_url'] = base_url().$this->controller_path.'/getdatatables';
+        $this->data['crud_for']          = ucwords($this->crud_for);
 
         // Prepare the page
-        $this->page_title   = "Manajemen User";
-        $this->page_content = "base/setting/user";
+        $this->page_title   = "Manajemen ".ucwords($this->crud_for);
+        $this->page_content = $this->view_path;
         $this->render_layout();
 
     }
      
     public function getdatatables() {
-        $this->datatables->select('user_id,user_name,user_pass,user_key,user_email,user_full_name,user_address,user_birthday,user_picture,user_phone,user_st,dc,du,')
-                        ->from('core_user');
+        $this->datatables->select('*')
+                        ->from($this->crud_table);
 
         echo $this->datatables->generate();
     }
@@ -34,11 +49,11 @@ class Role extends Base {
         $action = $this->input->post('action');
         
         if ($action == 'edit') {
-            $result = $this->user_model->update();
+            $result = $this->model->update();
         }elseif ($action == 'create') {
-            $result = $this->user_model->save();
+            $result = $this->model->save();
         }elseif ($action == 'remove') {
-            $result = $this->user_model->delete();
+            $result = $this->model->delete();
         }else{
             // nothing to do
         }
@@ -46,9 +61,9 @@ class Role extends Base {
         echo json_encode($result);
     }
 
-    public function get($user_id=null){
-        if($user_id!==null){
-            echo json_encode($this->core_userdb->get_one($user_id));
+    public function get($id=null){
+        if($id!==null){
+            echo json_encode($this->model->get_one($id));
         }
     }
 

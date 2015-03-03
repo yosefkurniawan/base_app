@@ -1,6 +1,5 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 
-
 class User_model extends CI_Model {
 
     // Start: customize CRUD parameters
@@ -76,7 +75,7 @@ class User_model extends CI_Model {
     //     // End: customize parameters
 
     //     $this->db->where($this->id, $id);
-    //     if ($this->db->update($crud_table, $data)){
+    //     if ($this->db->update($this->crud_table, $data)){
     //         // success
     //         $this->message->addSuccess('Data berhasil disimpan.');
     //         $result['message'] = $this->message->render_html();

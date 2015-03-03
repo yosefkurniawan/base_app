@@ -1,179 +1,70 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 require_once( APPPATH . 'modules/base/controllers/base.php' );
 
 class Portal extends Base {
-	public function __construct() {
-		// call the controller construct
-		parent::__construct();
-		// load model
-		$this->load->model('base/setting/m_portal');
-		// load portal
-		$this->load->helper('text');
-		// page title
-		$this->page_title();
 
-		// active page
-		$active['parent_active'] = "portal";
-		$active['child_active'] = "portal";
-		$this->session->set_userdata($active);	
-	}
+    // Start: customize CRUD parameters
+    private $crud_for   = 'portal';
+    private $crud_table = 'core_portal';
+    private $controller_path   = 'base/setting/portal';
+    private $model_path        = 'base/setting/portal_model';
+    private $view_path         = 'base/setting/portal';
+    // End: customize CRUD parameters
 
-	public function index()
-	{
-		// user_auth
-		$this->check_auth('R');
+    private $model_name;
+    private $model;
 
-		// message
-		$data['message'] = $this->session->flashdata('message');
-		// menu
-		$data['menu'] = $this->menu();
-		// user detail
-		$data['user'] = $this->user;
-		// get portal list
-		$data['rs_portal'] = $this->m_portal->get_all_portal();
+    function __construct() {
+        parent::__construct();
 
-		// load template
-		$data['layout'] = "setting/portal/list";
-		$data['javascript'] = "setting/portal/javascript/list";
-		$this->load->view('base/backend/template', $data);
-	}
+        // load models
+        $this->model_name = array_pop(explode('/', $this->model_path));
+        $this->model = $this->load->model($this->model_path, $this->model_name, TRUE);
 
-	// add
-	public function add() {
-		// user_auth
-		$this->check_auth('C');
+        // add breadcrumbs
+        $this->breadcrumb->add('Manajemen '.ucwords($this->crud_for));
+    }
 
-		// menu
-		$data['menu'] = $this->menu();
-		// user detail
-		$data['user'] = $this->user;
-		// load template
+    public function index() {
 
-		$data['title'] = "Add Portal PinapleSAS";
-		$data['layout'] = "setting/portal/add";
-		$this->load->view('base/backend/template', $data);
-	}
+        $this->data['submit_editor_url'] = base_url().$this->controller_path.'/submit';
+        $this->data['getdatatables_url'] = base_url().$this->controller_path.'/getdatatables';
+        $this->data['crud_for']          = ucwords($this->crud_for);
 
-	// add process
-	public function add_process() {
-		// form validation
-		$this->form_validation->set_rules('user_id', '', 'required|trim|xss_clean');
-		$this->form_validation->set_rules('portal_name', 'Name', 'required|trim|xss_clean|max_length[100]');
-		$this->form_validation->set_rules('portal_title', 'Title', 'required|trim|xss_clean|max_length[100]');
-		$this->form_validation->set_rules('portal_desc', 'Description', 'required|trim|xss_clean');
+        // Prepare the page
+        $this->page_title   = "Manajemen ".ucwords($this->crud_for);
+        $this->page_content = $this->view_path;
+        $this->render_layout();
 
-		if ($this->form_validation->run() == TRUE) {
-			// insert
-			$params = array($this->input->post('portal_name'), str_replace($this->char, "_", strtolower($this->input->post('portal_name'))), $this->input->post('portal_title'), $this->input->post('portal_desc'), $this->input->post('user_id'));
-			if ($this->m_portal->add_portal($params)) {
-				$data['message'] = "Data successfully added";
-				$this->session->set_flashdata('message',"Data successfully added");
-				redirect('setting/portal');
-			}
-		} else {
-			$data = array(
-				'message'		=> str_replace("\n", "", validation_errors()),
-				'portal_name'	=> $this->input->post('portal_name'),
-				'portal_title'	=> $this->input->post('portal_title'),
-				'portal_desc'	=> $this->input->post('portal_desc')
-			);
-				$this->session->set_flashdata($data);
-				redirect('setting/portal/add');
-		}
-	}
+    }
+     
+    public function getdatatables() {
+        $this->datatables->select('*')
+                        ->from($this->crud_table);
 
-	// edit
-	public function edit($portal_slug = "") {
-		// user_auth
-		$this->check_auth('U');
+        echo $this->datatables->generate();
+    }
 
-		// menu
-		$data['menu'] = $this->menu();
-		// user detail
-		$data['user'] = $this->user;
-		// get portal list
-		$data['result'] = $this->m_portal->get_portal_by_slug($portal_slug);
-		// load template
-		$data['title'] = "Edit Portal PinapleSAS";
-		$data['layout'] = "setting/portal/edit";
-		$this->load->view('base/backend/template', $data);
-	}
+    public function submit() {
+        $action = $this->input->post('action');
+        
+        if ($action == 'edit') {
+            $result = $this->model->update();
+        }elseif ($action == 'create') {
+            $result = $this->model->save();
+        }elseif ($action == 'remove') {
+            $result = $this->model->delete();
+        }else{
+            // nothing to do
+        }
 
-	// edit process
-	public function edit_process() {
-		// form validation
-		$this->form_validation->set_rules('user_id', '', 'required|trim|xss_clean');
-		$this->form_validation->set_rules('portal_id', '', 'required|trim|xss_clean');
-		$this->form_validation->set_rules('portal_slug', '', 'required|trim|xss_clean');
-		$this->form_validation->set_rules('portal_name', 'Name', 'required|trim|xss_clean|max_length[100]');
-		$this->form_validation->set_rules('portal_title', 'Title', 'required|trim|xss_clean|max_length[100]');
-		$this->form_validation->set_rules('portal_desc', 'Description', 'required|trim|xss_clean');
+        echo json_encode($result);
+    }
 
-		if ($this->form_validation->run() == TRUE) {
-			// insert
-			$params = array($this->input->post('portal_name'), str_replace($this->char, "_", strtolower($this->input->post('portal_name'))), $this->input->post('portal_title'), $this->input->post('portal_desc'), $this->input->post('portal_id'));
-			if ($this->m_portal->edit_portal($params)) {
-				$data['message'] = "Data successfully edited";
-			}
-			$this->session->set_flashdata($data);
-			redirect('setting/portal');
-		} else {
-			$data = array(
-				'message'		=> str_replace("\n", "", validation_errors()),
-				'portal_name'	=> $this->input->post('portal_name'),
-				'portal_title'	=> $this->input->post('portal_title'),
-				'portal_desc'	=> $this->input->post('portal_desc')
-			);
-			$this->session->set_flashdata($data);
-			redirect('setting/portal/edit/' . $this->input->post('portal_slug'));
-		}
-	}
+    public function get($id=null){
+        if($id!==null){
+            echo json_encode($this->model->get_one($id));
+        }
+    }
 
-	// delete
-	public function delete($portal_slug = "") {
-		// user_auth
-		$this->check_auth('D');
-
-		// menu
-		$data['menu'] = $this->menu();
-		// user detail
-		$data['user'] = $this->user;
-		// get portal list
-		$data['result'] = $this->m_portal->get_portal_by_slug($portal_slug);
-		// load template
-		$data['title'] = "Delete Portal Area PinapleSAS";
-		$data['layout'] = "setting/portal/delete";
-		$this->load->view('base/backend/template', $data);
-	}
-
-	// delete process
-	public function delete_process() {
-
-		// form validation
-		$this->form_validation->set_rules('user_id', '', 'required|trim|xss_clean');
-		$this->form_validation->set_rules('portal_id', '', 'required|trim|xss_clean');
-		$this->form_validation->set_rules('portal_slug', '', 'required|trim|xss_clean');
-
-		if ($this->form_validation->run() == TRUE) {
-			// insert
-			$params = array($this->input->post('portal_id'));
-			if ($this->m_portal->delete_portal($params)) {
-				$data['message'] = "Data successfully deleted";
-			}
-			$this->session->set_flashdata($data);
-			redirect('setting/portal');
-		} else {
-			$data = array(
-				'message'		=> validation_errors()
-			);
-		}
-		$this->session->set_flashdata($data);
-		redirect('setting/portal/delete/' . $this->input->post('portal_slug'));
-	}
-
-	// page title
-	public function page_title() {
-		$data['page_title'] = 'Portal';
-		$this->session->set_userdata($data);
-	}
 }
