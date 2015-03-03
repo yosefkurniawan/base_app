@@ -1,12 +1,12 @@
-<div id="modal-create-user-form" class="popup-basic admin-form mfp-with-anim mfp-hide">
+<div id="modal-create-form" class="popup-basic admin-form mfp-with-anim mfp-hide">
 
     <div class="panel">
         <div class="panel-heading">
-            <span class="panel-title"><i class="fa fa-plus"></i>Create New User</span>
+            <span class="panel-title"><i class="fa fa-plus"></i>Tambah <?php echo $crud_for ?></span>
         </div>
         <!-- end .panel-heading section -->
 
-        <form method="post" action="/" id="create-user-form">
+        <form method="post" action="/" id="create-form">
             
             <div class="panel-body p25">
 
@@ -98,103 +98,6 @@
     (function($j){
         
         $j(document).ready(function() {
-
-            /* ----------------------------------------- */
-            /* Validation
-            /* ----------------------------------------- */
-            
-            var form = $j( "#create-user-form" );
-            
-            form.validate({
-                
-                        /* @validation states + elements 
-                        ------------------------------------------- */
-                        
-                        errorClass: "state-error",
-                        validClass: "state-success",
-                        errorElement: "em",
-                        
-                        /* @validation rules 
-                        ------------------------------------------ */
-                            
-                        rules: {
-                                user_full_name: {
-                                        required: true
-                                },            
-                                user_email: {
-                                        required: true,
-                                        email: true
-                                },
-                                user_phone: {
-                                        required: true,
-                                        digits: true,
-                                        maxlength: 12
-                                },
-                                user_birthday: {
-                                        required: true,
-                                },                              
-                                user_address: {
-                                        required: true
-                                },                              
-                                user_name:  {
-                                        required: true
-                                },
-                                user_pass:  {
-                                        required: true
-                                }
-                        },
-
-                        /* @validation error messages 
-                        ---------------------------------------------- */
-                            
-                        messages:{
-                                user_full_name: {
-                                        required: 'Enter full name'
-                                },
-                                user_email: {
-                                        required: 'Enter email address',
-                                        email: 'Enter a VALID email address'
-                                },                  
-                                user_phone: {
-                                        require_from_group: 'Fill at least a mobile contact',
-                                        required: 'Enter phone number'
-                                },
-                                user_birthday: {
-                                        required: 'Enter birthdate'
-                                },                                                      
-                                user_address: {
-                                        required: 'Enter address'
-                                },                      
-                                user_name:  {
-                                        required: 'Enter username for login'
-                                },
-                                user_pass:  {
-                                        required: 'Enter password'
-                                }                                                                  
-                        },
-
-                        /* @validation highlighting + error placement  
-                        ---------------------------------------------------- */ 
-                        
-                        highlight: function(element, errorClass, validClass) {
-                                $j(element).closest('.field').addClass(errorClass).removeClass(validClass);
-                        },
-                        unhighlight: function(element, errorClass, validClass) {
-                                $j(element).closest('.field').removeClass(errorClass).addClass(validClass);
-                        },
-                        errorPlacement: function(error, element) {
-                           if (element.is(":radio") || element.is(":checkbox")) {
-                                    element.closest('.option-group').after(error);
-                           } else {
-                                    error.insertAfter(element.parent());
-                           }
-                        },
-                        removehighlights: function() {
-                            form.find('.field').removeClass(this.errorClass+' '+this.validClass);
-                            form.find('em.'+this.errorClass).remove();
-                        }
-                                
-                }); 
 
         })
 

@@ -1,12 +1,12 @@
-<div id="modal-update-user-form" class="popup-basic admin-form mfp-with-anim mfp-hide">
+<div id="modal-update-form" class="popup-basic admin-form mfp-with-anim mfp-hide">
 
     <div class="panel">
         <div class="panel-heading">
-            <span class="panel-title"><i class="fa fa-plus"></i>Edit User</span>
+            <span class="panel-title"><i class="fa fa-plus"></i>Edit <?php echo $crud_for ?></span>
         </div>
         <!-- end .panel-heading section -->
 
-        <form method="post" action="/" id="update-user-form">
+        <form method="post" action="/" id="update-form">
             <input type="hidden" name="user_id" id="user_id" />
             
             <div class="panel-body p25">
@@ -111,105 +111,6 @@
     (function($j){
         
         $j(document).ready(function() {
-
-            /* ----------------------------------------- */
-            /* Validation
-            /* ----------------------------------------- */
-
-            var form = $j( "#update-user-form" );
-
-            form.validate({
-            
-                    /* @validation states + elements 
-                    ------------------------------------------- */
-                    
-                    errorClass: "state-error",
-                    validClass: "state-success",
-                    errorElement: "em",
-                    
-                    /* @validation rules 
-                    ------------------------------------------ */
-                        
-                    rules: {
-                            user_full_name: {
-                                    required: true
-                            },            
-                            user_email: {
-                                    required: true,
-                                    email: true
-                            },
-                            user_phone: {
-                                    required: true,
-                                    digits: true,
-                                    maxlength: 12
-                            },
-                            user_birthday: {
-                                    required: true,
-                            },                              
-                            user_address: {
-                                    required: true
-                            },     
-                            user_pass:  {
-                                    required: true
-                            },
-                            user_repass:  {
-                                    required: true,
-                                    equalTo : "#user_pass"
-                            }
-                    },
-
-                    /* @validation error messages 
-                    ---------------------------------------------- */
-                        
-                    messages:{
-                            user_full_name: {
-                                    required: 'Enter full name'
-                            },
-                            user_email: {
-                                    required: 'Enter email address',
-                                    email: 'Enter a VALID email address'
-                            },                  
-                            user_phone: {
-                                    require_from_group: 'Fill at least a mobile contact',
-                                    required: 'Enter phone number'
-                            },
-                            user_birthday: {
-                                    required: 'Enter birthdate'
-                            },                                                      
-                            user_address: {
-                                    required: 'Enter address'
-                            },                      
-                            user_pass:  {
-                                    required: 'Enter new password'
-                            },
-                            user_pass:  {
-                                    required: 'Enter confirm new password',
-                                    equalTo: 'Confirm new password is not match'
-                            }                                                                  
-                    },
-
-                    /* @validation highlighting + error placement  
-                    ---------------------------------------------------- */ 
-                    
-                    highlight: function(element, errorClass, validClass) {
-                            $j(element).closest('.field').addClass(errorClass).removeClass(validClass);
-                    },
-                    unhighlight: function(element, errorClass, validClass) {
-                            $j(element).closest('.field').removeClass(errorClass).addClass(validClass);
-                    },
-                    errorPlacement: function(error, element) {
-                       if (element.is(":radio") || element.is(":checkbox")) {
-                                element.closest('.option-group').after(error);
-                       } else {
-                                error.insertAfter(element.parent());
-                       }
-                    },
-                    removehighlights: function() {
-                        form.find('.field').removeClass(this.errorClass+' '+this.validClass);
-                        form.find('em.'+this.errorClass).remove();
-                    }
-                            
-            }); 
 
             /* ----------------------------------------- */
             /* Toggle Change Password Form

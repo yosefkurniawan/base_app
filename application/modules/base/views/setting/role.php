@@ -9,9 +9,10 @@
                 <table cellpadding="0" cellspacing="0" border="0" class="table" id="datatable" width="100%">
                     <thead>
                         <tr>
-                            <th>Nama Lengkap</th>
-                            <th>Username</th>
-                            <th>Email</th>
+                            <th>Nama Role</th>
+                            <th>Deskripsi</th>
+                            <th>Portal</th>
+                            <th>Default path</th>
                             <th>Status</th>
                             <th>&nbsp;</th>
                         </tr>
@@ -39,7 +40,7 @@
         var create_form = $j( "#create-form" );
         var update_form = $j( "#update-form" );
         var validation_options = {
-            
+        
                 /* @validation states + elements 
                 ------------------------------------------- */
                 
@@ -51,30 +52,14 @@
                 ------------------------------------------ */
                     
                 rules: {
-                        user_full_name: {
-                                required: true
-                        },            
-                        user_email: {
-                                required: true,
-                                email: true
-                        },
-                        user_phone: {
-                                required: true,
-                                digits: true,
-                                maxlength: 12
-                        },
-                        user_birthday: {
-                                required: true,
-                        },                              
-                        user_address: {
-                                required: true
-                        },     
-                        user_pass:  {
+                        role_name: {
                                 required: true
                         },
-                        user_repass:  {
+                        portal_id: {
+                                required: true
+                        },
+                        role_default_url: {
                                 required: true,
-                                equalTo : "#user_pass"
                         }
                 },
 
@@ -82,7 +67,7 @@
                 ---------------------------------------------- */
                     
                 messages:{
-                                                                                        
+                                                                                  
                 },
 
                 /* @validation highlighting + error placement  
@@ -115,13 +100,6 @@
         /* Widget
         /* ----------------------------------------- */
 
-        $j(".datepicker").datepicker({
-            prevText: '<i class="fa fa-chevron-left"></i>',
-            nextText: '<i class="fa fa-chevron-right"></i>',
-            changeMonth: true,
-            changeYear: true,
-            showButtonPanel: false
-        });
         
     });
     

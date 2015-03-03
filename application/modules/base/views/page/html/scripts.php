@@ -15,7 +15,9 @@
 
 <!-- Vendor JS  -->
 <script type="text/javascript" src="<?php echo skin_url('vendor/plugins/magnific/jquery.magnific-popup.js') ?>"></script>
-
+<script type="text/javascript" src="<?php echo skin_url() ?>vendor/plugins/datatables/media/js/jquery.dataTables.js"></script>
+<script type="text/javascript" src="<?php echo skin_url() ?>vendor/plugins/datatables/extensions/TableTools/js/dataTables.tableTools.min.js"></script>
+<script type="text/javascript" src="<?php echo skin_url() ?>vendor/plugins/datatables/media/js/dataTables.bootstrap.js"></script>
 <!-- Admin Forms Javascript -->
 <script type="text/javascript" src="<?php echo skin_url('assets/admin-tools/admin-forms/js/jquery-ui-monthpicker.min.js') ?>"></script>
 <script type="text/javascript" src="<?php echo skin_url('assets/admin-tools/admin-forms/js/jquery-ui-timepicker.min.js') ?>"></script>
@@ -27,6 +29,9 @@
 <script type="text/javascript" src="<?php echo skin_url('assets/admin-tools/admin-plugins/admin-panels/json2.js') ?>"></script>
 <script type="text/javascript" src="<?php echo skin_url('assets/admin-tools/admin-plugins/admin-panels/jquery.ui.touch-punch.min.js') ?>"></script>
 <script type="text/javascript" src="<?php echo skin_url('assets/admin-tools/admin-plugins/admin-panels/adminpanels.js') ?>"></script>
+<script type="text/javascript" src="<?php echo skin_url() ?>assets/admin-tools/admin-forms/js/advanced/steps/jquery.steps.js"></script>
+<script type="text/javascript" src="<?php echo skin_url() ?>assets/admin-tools/admin-forms/js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="<?php echo skin_url() ?>assets/admin-tools/admin-forms/js/additional-methods.min.js"></script>
 
 <!-- Theme Javascript -->
 <script type="text/javascript" src="<?php echo skin_url('assets/js/utility/utility.js') ?>"></script>
@@ -35,6 +40,9 @@
 
 <!-- Helper -->
 <script type="text/javascript" src="<?php echo skin_url('assets/js/helpers/global.js') ?>"></script>
+
+<!-- General JS -->
+<script type="text/javascript" src="<?php echo skin_url('assets/js/global.js') ?>"></script>
 
 <!-- Additional JS -->
 <?php if (isset($js)): ?>
