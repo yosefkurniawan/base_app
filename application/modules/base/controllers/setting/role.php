@@ -25,6 +25,10 @@ class Role extends Base {
         $this->breadcrumb->add('Manajemen '.ucwords($this->crud_for));
     }
 
+    /* ========================================== */
+    /* CRUD MAIN FUNCTIONS
+    /* ========================================== */
+
     public function index() {
 
         $this->data['submit_editor_url'] = base_url().$this->controller_path.'/submit';
@@ -67,4 +71,9 @@ class Role extends Base {
         }
     }
 
+    /* ========================================== */
+    /* CUSTOM FUNCTIONS
+    /* ========================================== */
+
+    // put custom functions here if any...
 }
