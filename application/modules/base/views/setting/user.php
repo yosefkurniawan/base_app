@@ -24,10 +24,6 @@
 
 <?php echo $this->load->view('user/editor_new') ?>
 <?php echo $this->load->view('user/editor_edit') ?>
-
-<!-- Page Plugins -->
-
-
 <?php echo $this->load->view('user/crud_js') ?>
 
 <script>

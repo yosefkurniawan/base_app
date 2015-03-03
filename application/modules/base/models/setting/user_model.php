@@ -3,6 +3,11 @@
 
 class User_model extends CI_Model {
 
+    // Start: customize CRUD parameters
+    private $crud_table = 'core_user';
+    private $id         = 'user_id';
+    // End: customize CRUD parameters
+
     function __construct() {
         parent::__construct();
     }
@@ -14,7 +19,7 @@ class User_model extends CI_Model {
     /* Get all */
     function get_all($limit, $uri) {
 
-        $result = $this->db->get('core_user', $limit, $uri);
+        $result = $this->db->get($this->crud_table, $limit, $uri);
         if ($result->num_rows() > 0) {
             return $result->result_array();
         } else {
@@ -24,8 +29,8 @@ class User_model extends CI_Model {
     
     /* Get one */
     function get_one($id) {
-        $this->db->where('user_id', $id);
-        $result = $this->db->get('core_user');
+        $this->db->where($this->id, $id);
+        $result = $this->db->get($this->crud_table);
         if ($result->num_rows() == 1) {
             return $result->row_array();
         } else {
@@ -34,6 +39,131 @@ class User_model extends CI_Model {
     }
 
     /* Save new data */
+    // function save() {
+    //     $inputs   = $this->input->post('data');
+
+    //     // Start: customize parameters
+    //     $data = array(
+    //     // 'field' => 'input value',
+    //     // ...
+    //     );
+    //     // End: customize parameters
+        
+    //     if ($this->db->insert($this->crud_table, $data)) {
+    //         // success
+    //         $this->message->addSuccess('Data berhasil disimpan.');
+    //         $result['success'] = true;
+    //     }else{
+    //         // error: unknown
+    //         $this->message->addError('Terjadi galat saat menyimpan data.');
+    //         $result['success'] = false;
+    //     }
+        
+    //     $result['message'] = $this->message->render_html();
+    //     return $result;
+    // }
+
+    /* save edited data */
+    // function update() {
+    //     $inputs   = $this->input->post('data');
+    //     $id  = $this->input->post('id');
+
+    //     // Start: customize parameters
+    //     $data = array(
+    //     // 'field' => 'input value',
+    //     // ...
+    //     );
+    //     // End: customize parameters
+
+    //     $this->db->where($this->id, $id);
+    //     if ($this->db->update($crud_table, $data)){
+    //         // success
+    //         $this->message->addSuccess('Data berhasil disimpan.');
+    //         $result['message'] = $this->message->render_html();
+    //         $result['success'] = true;
+    //     }else{
+    //         // error: unknown
+    //         $this->message->addError('Terjadi galat saat menyimpan data.');
+    //         $result['message'] = $this->message->render_html();
+    //         $result['success'] = false;
+    //     }
+
+    //     return $result;
+    // }
+
+    /* delete data */
+    // function delete() {
+    //     $id  = $this->input->post('id');
+
+    //     if (is_array($id)) {
+    //         $count_success = 0;
+    //         $count_failed = 0;
+    //         $result = array();
+    //         foreach ($id as $row) {
+    //             $this->db->where($this->id, $row);
+    //             if ($this->db->delete($this->crud_table)) {
+    //                 $count_success++;
+    //             }else{
+    //                 $count_failed++;
+    //             }
+    //         }
+    //         $result['deleted']      = $count_success;
+    //         $result['not_deleted']  = $count_failed;
+
+    //         if ($count_success > 0) {
+    //             $this->message->addSuccess($count_success.' baris data berhasil dihapus.');
+    //         }
+            
+    //         if ($count_failed > 0) {
+    //             $this->message->addError($count_failed.' baris data gagal dihapus.');
+    //         }
+
+    //         $result['message'] = $this->message->render_html();
+    //         return $result;
+    //     }else{
+    //         $this->db->where($this->id, $id);
+    //         if ($this->db->delete($this->crud_table)) {
+    //             // success
+    //             $this->message->addSuccess('Data berhasil dihapus.');
+    //             $result['message'] = $this->message->render_html();
+    //             $result['success'] = true;
+    //         }else{
+    //             // error: unknown
+    //             $this->message->addError('Terjadi galat saat menghapus data.');
+    //             $result['message'] = $this->message->render_html();
+    //             $result['success'] = false;
+    //         }
+    //         return $result;
+    //     }
+    // }
+
+    /* ========================================== */
+    /* CUSTOM FUNCTIONS
+    /* ========================================== */
+
+    /* get data by username */
+    function get_one_by_username($username) {
+        $this->db->where('user_name', $username);
+        $result = $this->db->get($this->crud_table);
+        if ($result->num_rows() > 0) {
+            return $result->row_array();
+        } else {
+            return array();
+        }
+    }
+
+    /* get data by email */
+    function get_one_by_email($email) {
+        $this->db->where('user_email', $email);
+        $result = $this->db->get($this->crud_table);
+        if ($result->num_rows() > 0) {
+            return $result->row_array();
+        } else {
+            return array();
+        }
+    }
+
+    /* Custom Save new data */
     function save() {
         $inputs   = $this->input->post('data');
 
@@ -54,7 +184,7 @@ class User_model extends CI_Model {
                 'dc' => date('Y-m-d H:i:s'),
                 );
                 
-                if ($this->db->insert('core_user', $data)) {
+                if ($this->db->insert($this->crud_table, $data)) {
                     // success
                     $this->message->addSuccess('Data has been inserted successfully.');
                     $result['success'] = true;
@@ -80,10 +210,9 @@ class User_model extends CI_Model {
             $result['success'] = false;
             return $result;
         }
-
     }
 
-    /* save edited data */
+    /* Custom save edited data */
     function update() {
         $inputs   = $this->input->post('data');
         $id  = $this->input->post('id');
@@ -105,8 +234,8 @@ class User_model extends CI_Model {
                 $data['user_pass'] = sha1($inputs['user_pass']);
             }
 
-            $this->db->where('user_id', $id);
-            if ($this->db->update('core_user', $data)){
+            $this->db->where($this->id, $id);
+            if ($this->db->update($this->crud_table, $data)){
                 // success
                 $this->message->addSuccess('Data has been updated.');
                 $result['message'] = $this->message->render_html();
@@ -128,7 +257,10 @@ class User_model extends CI_Model {
         }
     }
 
-    /* delete data */
+    /* Custom delete data */
+    /* Description :
+     * - the data is not deleted, just change its status as deleted.
+     */
     function delete() {
         $id  = $this->input->post('id');
 
@@ -136,46 +268,51 @@ class User_model extends CI_Model {
             $count_success = 0;
             $count_failed = 0;
             $result = array();
+            
             foreach ($id as $row) {
-                $this->db->where('user_id', $row);
-                if ($this->db->delete('core_user')) {
+                $data = array(
+                    'user_st' => 'deleted',
+                );
+
+                $this->db->where($this->id, $row);
+                if ($this->db->update($this->crud_table, $data)){
                     $count_success++;
                 }else{
                     $count_failed++;
                 }
             }
-            $result['deleted'] = $count_success;
-            $result['not_deleted'] = $count_failed;
+
+            $result['deleted']      = $count_success;
+            $result['not_deleted']  = $count_failed;
+
+            if ($count_success > 0) {
+                $this->message->addSuccess($count_success.' baris data berhasil dihapus.');
+            }
+            
+            if ($count_failed > 0) {
+                $this->message->addError($count_failed.' baris data gagal dihapus.');
+            }
+
+            $result['message'] = $this->message->render_html();
             return $result;
         }else{
-            $this->db->where('user_id', $id);
-            return $this->db->delete('core_user');
-        }
-    }
+            $this->db->where($this->id, $id);
+            $data = array(
+                'user_st' => 'deleted',
+            );
 
-    /* ========================================== */
-    /* CUSTOM FUNCTIONS
-    /* ========================================== */
-
-    /* get data by username */
-    function get_one_by_username($username) {
-        $this->db->where('user_name', $username);
-        $result = $this->db->get('core_user');
-        if ($result->num_rows() > 0) {
-            return $result->row_array();
-        } else {
-            return array();
-        }
-    }
-
-    /* get data by email */
-    function get_one_by_email($email) {
-        $this->db->where('user_email', $email);
-        $result = $this->db->get('core_user');
-        if ($result->num_rows() > 0) {
-            return $result->row_array();
-        } else {
-            return array();
+            if ($this->db->update($this->crud_table, $data)) {
+                // success
+                $this->message->addSuccess('Data berhasil dihapus.');
+                $result['message'] = $this->message->render_html();
+                $result['success'] = true;
+            }else{
+                // error: unknown
+                $this->message->addError('Terjadi galat saat menghapus data.');
+                $result['message'] = $this->message->render_html();
+                $result['success'] = false;
+            }
+            return $result;
         }
     }
 }
