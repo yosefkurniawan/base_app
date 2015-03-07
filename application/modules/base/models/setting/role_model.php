@@ -15,10 +15,22 @@ class Role_model extends CI_Model {
     /* CRUD MAIN FUNCTIONS
     /* ========================================== */
 
-    /* Get all */
-    function get_all($limit, $uri) {
+    /* Get datatables */
+    function get_datatables() {
+        return $this->datatables->select('r.*, p.portal_name')
+            ->from($this->crud_table .' r')
+            ->join('core_portal p', 'p.portal_id = r.portal_id', 'left');
+    }
 
-        $result = $this->db->get($this->crud_table, $limit, $uri);
+    /* Get all */
+    function get_all($limit=NULL, $uri=NULL) {
+
+        if ($limit != NULL && $uri != NULL) {
+            $result = $this->db->get($this->crud_table);
+        }else{
+            $result = $this->db->get($this->crud_table, $limit, $uri);
+        }
+
         if ($result->num_rows() > 0) {
             return $result->result_array();
         } else {
@@ -43,8 +55,13 @@ class Role_model extends CI_Model {
 
         // Start: customize parameters
         $data = array(
-        // 'field' => 'input value',
-        // ...
+            'role_name' => $inputs['role_name'],
+            'role_desc' => $inputs['role_desc'],
+            'portal_id' => $inputs['portal_id'],
+            'role_default_url' => $inputs['role_default_url'],
+            'role_st' => (isset($inputs['role_st']) && $inputs['role_st'] == '1')? 'active' : 'inactive',
+            'creator'   => $inputs['creator'],
+            'dc'        => date('Y-m-d H:i:s')
         );
         // End: customize parameters
         
@@ -66,11 +83,15 @@ class Role_model extends CI_Model {
     function update() {
         $inputs   = $this->input->post('data');
         $id  = $this->input->post('id');
-
+        
         // Start: customize parameters
         $data = array(
-        // 'field' => 'input value',
-        // ...
+            'role_name' => $inputs['role_name'],
+            'role_desc' => $inputs['role_desc'],
+            'portal_id' => $inputs['portal_id'],
+            'role_default_url' => $inputs['role_default_url'],
+            'role_st' => (isset($inputs['role_st']) && $inputs['role_st'] == '1')? 'active' : 'inactive',
+            'du'        => date('Y-m-d H:i:s')
         );
         // End: customize parameters
 
@@ -133,6 +154,24 @@ class Role_model extends CI_Model {
                 $result['success'] = false;
             }
             return $result;
+        }
+    }
+
+    /* ========================================== */
+    /* CUSTOM FUNCTIONS
+    /* ========================================== */
+
+    public function get_permission_by_role($role_id) {
+        $sql = "SELECT m.menu_name, p.*
+                FROM core_menu  m
+                LEFT JOIN core_permission p ON m.menu_id = p.menu_id
+                WHERE role_id = $role_id";
+        $sql_result = $this->db->query($sql);
+
+        if ($sql_result->num_rows() > 0){
+            return $sql_result->result_array();
+        }else{
+            return array();
         }
     }
 

@@ -1,3 +1,8 @@
+<?php  
+    $user_session = $this->session->userdata('session_user');
+    $user_id = $user_session['user_id'];
+?>
+
 <div id="modal-create-form" class="popup-basic admin-form mfp-with-anim mfp-hide">
 
     <div class="panel">
@@ -7,7 +12,7 @@
         <!-- end .panel-heading section -->
 
         <form method="post" action="/" id="create-form">
-            <input type="hidden" name="role_id" id="role_id" />
+            <input type="hidden" name="creator" id="creator" value="<?php echo $user_id ?>"/>
             
             <div class="panel-body p25">
 
@@ -50,7 +55,7 @@
             <!-- end .form-body section -->
 
             <div class="panel-footer">
-                <button type="submit" class="button btn-primary">Save</button>
+                <button type="submit" class="button btn-primary">Simpan</button>
             </div>
             <!-- end .form-footer section -->
         </form>

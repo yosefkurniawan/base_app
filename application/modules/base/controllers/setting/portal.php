@@ -40,7 +40,7 @@ class Portal extends Base {
      
     public function getdatatables() {
         $this->datatables->select('*')
-                        ->from($this->crud_table);
+            ->from($this->crud_table);
 
         echo $this->datatables->generate();
     }
@@ -64,6 +64,16 @@ class Portal extends Base {
     public function get($id=null){
         if($id!==null){
             echo json_encode($this->model->get_one($id));
+        }
+    }
+
+    public function get_all() {
+
+        // check ajax
+        if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+            print_r(json_encode($this->model->get_all()));
+        }else{
+            return $this->model->get_all();
         }
     }
 

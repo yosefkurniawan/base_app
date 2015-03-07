@@ -34,7 +34,7 @@ class Base extends MX_Controller {
 
 	}
 
-	public function breadcrumbs_init() {
+	private function breadcrumbs_init() {
 		/*
 		 * Descripsion:
 		 * Full reference for breadcrumbs is at /libaries/Breadcrumbs.php
@@ -45,26 +45,11 @@ class Base extends MX_Controller {
 		$this->breadcrumb->change_link(' / ');
 	}
 
-	public function render_layout($layout_path = '') {
-
-		// prepare all vars
-		$this->data['body_class'] 	= ($this->body_class)? $this->body_class : '';
-		$this->data['breadcrumbs'] 	= $this->breadcrumbs;
-		$this->data['page_title'] 	= $this->page_title;
-		$this->data['page_content'] = $this->page_content;
-		$this->data['user'] 		= $this->user;
-		$this->data['messages'] 	= $this->messages;
-		$this->data['js'] 			= $this->js;
-		$this->data['css'] 			= $this->css;
-
-		if ($layout_path == '') {
-			$this->load->view('base/page/layout', $this->data);
-		}else{
-			$this->load->view($layout_path, $this->data);
-		}
+	protected function global_msg_init() {
+		$this->messages = $this->session->flashdata('messages');
 	}
-
-	public function menu() {
+	
+	private function menu() {
 
 		$menu = array();
 
@@ -95,8 +80,28 @@ class Base extends MX_Controller {
 		$this->data['menu'] = $menu;
 	}
 
+	public function render_layout($layout_path = '') {
+
+		// prepare all vars
+		$this->data['body_class'] 	= ($this->body_class)? $this->body_class : '';
+		$this->data['breadcrumbs'] 	= $this->breadcrumbs;
+		$this->data['page_title'] 	= $this->page_title;
+		$this->data['page_content'] = $this->page_content;
+		$this->data['user'] 		= $this->user;
+		$this->data['messages'] 	= $this->messages;
+		$this->data['js'] 			= $this->js;
+		$this->data['css'] 			= $this->css;
+
+		if ($layout_path == '') {
+			$this->load->view('base/page/layout', $this->data);
+		}else{
+			$this->load->view($layout_path, $this->data);
+		}
+	}
+
+
 	// get user login
-	protected function get_user_login() {
+	public function get_user_login() {
 		
 		// get user login
 		$session = $this->session->userdata('session_user');
@@ -113,7 +118,7 @@ class Base extends MX_Controller {
 		}
 	}
 
-	protected function check_auth($auth) {
+	public function check_auth($auth) {
 		
 		$params = $_SERVER['PATH_INFO'];
 		if (substr($params, 0, 1) != '/') {
@@ -135,8 +140,12 @@ class Base extends MX_Controller {
 		}
 	}
 
-	protected function global_msg_init() {
-		$this->messages = $this->session->flashdata('messages');
+	public function is_ajax() {
+		if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 }

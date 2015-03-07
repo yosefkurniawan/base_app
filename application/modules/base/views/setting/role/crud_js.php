@@ -33,7 +33,7 @@
                     "data": "role_desc"
                 },
                 {
-                    "data": "portal_id"
+                    "data": "portal_name"
                 },
                 {
                     "data": "role_default_url"
@@ -52,8 +52,11 @@
                 },
                 {   "sClass": "center", "bSortable": false, "bSearchable": false, "sWidth": "100px","mData": 0,
                     "mDataProp": function(data, type, full) {
-                        if (data.user_st!='deleted')
-                            return "<div class='btn-group'><button class='edit btn btn-sm btn-default' data-id='"+data.role_id+"' id='edit-"+data.role_id+"'><icon class='fa fa-pencil'></icon></button><button class='delete btn btn-sm btn-default' data-id='"+data.role_id+"' id='delete-"+data.role_id+"'><icon class='fa fa-trash-o'></icon></button></div>";
+                        var id = data.role_id;
+                        if (data.role_st!='deleted')
+                            return "<div class='btn-group'><button class='permission btn btn-sm btn-default' data-id='"+id+"' id='permission-"+id+"' data-toggle='tooltip' data-placement='top' title='' data-original-title='Permission'><icon class='fa fa-key'></icon></button>"+
+                                    "<div class='btn-group'><button class='edit btn btn-sm btn-default' data-id='"+id+"' id='edit-"+id+"' data-toggle='tooltip' data-placement='top' title='' data-original-title='Edit'><icon class='fa fa-pencil'></icon></button>"+
+                                    "<button class='delete btn btn-sm btn-default' data-id='"+id+"' id='delete-"+id+"' data-toggle='tooltip' data-placement='top' title='' data-original-title='Delete'><icon class='fa fa-trash-o'></icon></button></div>";
                         else
                             return "";
                     }
@@ -104,6 +107,16 @@
                     var data    = datatables.row('#row-'+id).data(); 
                     delete_data(id,data);
                 });
+
+                // bind event "click" of Permission Button
+                $j(this).find('button.btn.permission').click(function(){
+                    var id      = $j(this).attr('data-id');
+                    var data    = datatables.row('#row-'+id).data();
+                    open_permission_form(data);
+                });
+
+                // init tooltip on button
+                table_ID.find('button').tooltip({trigger: 'hover','placement': 'top'});
             }
         } );
     
@@ -121,6 +134,12 @@
         $j(update_form).submit(function(e){
             e.preventDefault(); //STOP default action
             edit_data($j(this));
+        })
+
+        // Edit-editor on submit
+        $j('#permission-form').submit(function(e){
+            e.preventDefault(); //STOP default action
+            permission_save($j(this));
         })
 
         /* ----------------------------------------- */
@@ -192,6 +211,48 @@
                     }else{
                         $j(update_form).find('#role_st').prop('checked',false);
                     }
+
+                }
+            },
+            midClick: true // allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source.
+        });
+    }
+
+    // Fn: Open Edit Permission modal
+    function open_permission_form(data) {
+        $j.magnificPopup.open({
+            removalDelay: 500, //delay removal by X to allow out-animation,
+            items: {
+                src: '#modal-permission-form'
+            },
+            callbacks: {
+                beforeOpen: function(e) {
+                    var Animation = 'mfp-flipInY';
+                    this.st.mainClass = Animation;
+                },
+                beforeClose: function(e) {
+                    $j(update_form).validate().settings.removehighlights($j(update_form));
+                    $j(update_form).find('.panel-body > .alert').remove();
+                },
+                open: function() {
+
+                    $j('#modal-permission-form .panel-title .role-name').text(data.role_name);
+                    $j('#permission-form #role_id').val(data.role_id);
+
+                    $j.ajax({
+                        url : '<?php echo base_url()."base/setting/role/get_permission_by_role" ?>',
+                        type: "GET",
+                        data : {'role_id':data.role_id},
+                        dataType: 'html',
+                        success:function(data, textStatus, jqXHR) 
+                        {
+                            $j('#table-permission tbody').html(data);
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) 
+                        {
+                            globalhelper.ajax_error(textStatus);
+                        }
+                    });
 
                 }
             },
@@ -285,6 +346,51 @@
                     globalhelper.ajax_error(textStatus);
                 }
             });
+        };
+    }
+
+    // Fn: save permission
+    function permission_save(form) {
+        var form = $j(form);
+        if (form.valid()) {
+            var formURL = '<?php echo base_url()."base/setting/role/permission_save" ?>';
+            var postData = {};
+
+            var data = {};
+            $j.each(form.serializeArray(), function() {
+                data[this.name] = this.value;
+            });
+
+            postData.id = data.role_id;
+            postData.data = data;
+            console.log(data);
+
+            // $j.ajax({
+            //     url : formURL,
+            //     type: "POST",
+            //     data : postData,
+            //     dataType: 'json',
+            //     success:function(data, textStatus, jqXHR) 
+            //     {
+            //         if (data.success) {
+            //             datatables.ajax.reload();
+            //             $j.magnificPopup.close();
+            //             update_form[0].reset();
+            //         }else{
+            //             $j(update_form).find('.panel-body > .alert').remove();
+            //             $j(update_form).find('.panel-body').prepend(data.message);
+
+            //             // animate error entrance
+            //             var animatedObj = update_form.find('.panel-body > .alert');
+            //             var x = 'bounceIn';
+            //             globalhelper.animation(x,animatedObj);
+            //         }
+            //     },
+            //     error: function(jqXHR, textStatus, errorThrown) 
+            //     {
+            //         globalhelper.ajax_error(textStatus);
+            //     }
+            // });
         };
     }
 

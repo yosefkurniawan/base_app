@@ -18,6 +18,13 @@
 <script type="text/javascript" src="<?php echo skin_url() ?>vendor/plugins/datatables/media/js/jquery.dataTables.js"></script>
 <script type="text/javascript" src="<?php echo skin_url() ?>vendor/plugins/datatables/extensions/TableTools/js/dataTables.tableTools.min.js"></script>
 <script type="text/javascript" src="<?php echo skin_url() ?>vendor/plugins/datatables/media/js/dataTables.bootstrap.js"></script>
+<script type="text/javascript" src="<?php echo skin_url() ?>vendor/plugins/fancytree/jquery.fancytree-all.min.js"></script>
+<script type="text/javascript" src="<?php echo skin_url() ?>vendor/plugins/fancytree/extensions/jquery.fancytree.childcounter.js"></script>
+<script type="text/javascript" src="<?php echo skin_url() ?>vendor/plugins/fancytree/extensions/jquery.fancytree.columnview.js"></script>
+<script type="text/javascript" src="<?php echo skin_url() ?>vendor/plugins/fancytree/extensions/jquery.fancytree.dnd.js"></script>
+<script type="text/javascript" src="<?php echo skin_url() ?>vendor/plugins/fancytree/extensions/jquery.fancytree.edit.js"></script>
+<script type="text/javascript" src="<?php echo skin_url() ?>vendor/plugins/fancytree/extensions/jquery.fancytree.filter.js"></script>
+
 <!-- Admin Forms Javascript -->
 <script type="text/javascript" src="<?php echo skin_url('assets/admin-tools/admin-forms/js/jquery-ui-monthpicker.min.js') ?>"></script>
 <script type="text/javascript" src="<?php echo skin_url('assets/admin-tools/admin-forms/js/jquery-ui-timepicker.min.js') ?>"></script>

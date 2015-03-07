@@ -71,7 +71,7 @@
             <!-- end .form-body section -->
 
             <div class="panel-footer">
-                <button type="submit" class="button btn-primary">Save</button>
+                <button type="submit" class="button btn-primary">Simpan</button>
             </div>
             <!-- end .form-footer section -->
         </form>

@@ -41,7 +41,9 @@
                 {   "sClass": "center", "bSortable": false, "bSearchable": false, "sWidth": "100px","mData": 0,
                     "mDataProp": function(data, type, full) {
                         var id = data.portal_id
-                        return "<div class='btn-group'><button class='edit btn btn-sm btn-default' data-id='"+id+"' id='edit-"+id+"'><icon class='fa fa-pencil'></icon></button><button class='delete btn btn-sm btn-default' data-id='"+id+"' id='delete-"+id+"'><icon class='fa fa-trash-o'></icon></button></div>";
+                        return "<div class='btn-group'><button class='edit btn btn-sm btn-default' data-id='"+id+"' id='edit-"+id+"' data-toggle='tooltip' data-placement='top' title='' data-original-title='Edit'><icon class='fa fa-pencil'></icon></button>"+
+                                    "<button class='delete btn btn-sm btn-default' data-id='"+id+"' id='delete-"+id+"' data-toggle='tooltip' data-placement='top' title='' data-original-title='Delete'><icon class='fa fa-trash-o'></icon></button></div>";
+                        
                     }
                 }
             ],
@@ -236,7 +238,7 @@
                 data[this.name] = this.value;
             });
 
-            postData.id = data.role_id;
+            postData.id = data.portal_id;
             postData.data = data;
             postData.action = 'edit';
 

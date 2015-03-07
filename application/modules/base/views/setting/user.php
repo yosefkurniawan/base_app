@@ -12,6 +12,7 @@
                             <th>Nama Lengkap</th>
                             <th>Username</th>
                             <th>Email</th>
+                            <th>Role</th>
                             <th>Status</th>
                             <th>&nbsp;</th>
                         </tr>
@@ -75,6 +76,9 @@
                         user_repass:  {
                                 required: true,
                                 equalTo : "#user_pass"
+                        },     
+                        role_id:  {
+                                required: true
                         }
                 },
 
