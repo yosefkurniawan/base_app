@@ -1,6 +1,6 @@
 <?php
 
-class M_base extends CI_Model {
+class Base_model extends CI_Model {
 
     function __construct() {
         // Call the Model constructor

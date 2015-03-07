@@ -16,18 +16,24 @@ require_once( APPPATH . 'modules/base/controllers/base.php' );
 class Class_name extends Base {
 
     // Start: customize CRUD parameters
-    private $crud_for   = '<Crud_for_what>';
     private $crud_table = '<table_name>';
-    private $controller_path   = '<controller_path>';
-    private $model_path        = '<model_path>';
-    private $view_path         = '<view_path>';
     // End: customize CRUD parameters
 
+    private $crud_for;
     private $model_name;
     private $model;
+    private $controller_path;
+    private $model_path;
+    private $view_path;
 
     function __construct() {
         parent::__construct();
+
+        // set vars (can be customized)
+        $this->crud_for         = $this->router->fetch_class();
+        $this->controller_path  = $this->get_class_path();
+        $this->model_path       = $this->get_class_path().'_model';
+        $this->view_path        = $this->get_class_path();
 
         // load models
         $this->model_name = array_pop(explode('/', $this->model_path));
