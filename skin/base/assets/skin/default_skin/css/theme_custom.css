@@ -30,3 +30,14 @@ table.dataTable thead th {
 	margin: 0 1%;
 }
 
+/* ======================================================= */
+/*  Admin Form
+/* ======================================================= */
+
+.admin-form .prepend-icon > select {
+	padding-left: 36px;	
+}
+
+.admin-form .prepend-icon.select > .field-icon {
+	z-index: 10;
+}

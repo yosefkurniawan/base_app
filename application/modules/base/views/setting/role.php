@@ -25,6 +25,7 @@
 
 <?php echo $this->load->view(strtolower($crud_for).'/editor_new') ?>
 <?php echo $this->load->view(strtolower($crud_for).'/editor_edit') ?>
+<?php echo $this->load->view(strtolower($crud_for).'/editor_permission') ?>
 <?php echo $this->load->view(strtolower($crud_for).'/crud_js') ?>
 
 <script>

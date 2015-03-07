@@ -27,10 +27,21 @@ class Class_name extends CI_Model {
     /* CRUD MAIN FUNCTIONS
     /* ========================================== */
 
-    /* Get all */
-    function get_all($limit, $uri) {
+    /* Get datatables */
+    function get_datatables() {
+        $this->datatables->select('*')
+            ->from($this->crud_table);
+    }
 
-        $result = $this->db->get($this->crud_table, $limit, $uri);
+    /* Get all */
+    function get_all($limit=NULL, $uri=NULL) {
+
+        if ($limit != NULL && $uri != NULL) {
+            $result = $this->db->get($this->crud_table);
+        }else{
+            $result = $this->db->get($this->crud_table, $limit, $uri);
+        }
+
         if ($result->num_rows() > 0) {
             return $result->result_array();
         } else {
@@ -55,7 +66,7 @@ class Class_name extends CI_Model {
 
         // Start: customize parameters
         $data = array(
-        // 'field' => 'input value',
+        // 'field' => $inputs['field_name'],
         // ...
         );
         // End: customize parameters

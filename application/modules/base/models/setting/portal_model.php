@@ -17,9 +17,14 @@ class Portal_model extends CI_Model {
     /* ========================================== */
 
     /* Get all */
-    function get_all($limit, $uri) {
+    function get_all($limit=NULL, $uri=NULL) {
 
-        $result = $this->db->get($this->crud_table, $limit, $uri);
+        if ($limit != NULL && $uri != NULL) {
+            $result = $this->db->get($this->crud_table);
+        }else{
+            $result = $this->db->get($this->crud_table, $limit, $uri);
+        }
+        
         if ($result->num_rows() > 0) {
             return $result->result_array();
         } else {
@@ -44,8 +49,12 @@ class Portal_model extends CI_Model {
 
         // Start: customize parameters
         $data = array(
-        // 'field' => 'input value',
-        // ...
+            'portal_name'   => $inputs['portal_name'],
+            'portal_slug'   => $inputs['portal_slug'],
+            'portal_title'  => $inputs['portal_title'],
+            'portal_desc'   => $inputs['portal_desc'],
+            'creator'       => $inputs['creator'],
+            'dc'            => date('Y-m-d H:i:s')
         );
         // End: customize parameters
         
@@ -70,8 +79,11 @@ class Portal_model extends CI_Model {
 
         // Start: customize parameters
         $data = array(
-        // 'field' => 'input value',
-        // ...
+            'portal_name'   => $inputs['portal_name'],
+            'portal_slug'   => $inputs['portal_slug'],
+            'portal_title'  => $inputs['portal_title'],
+            'portal_desc'   => $inputs['portal_desc'],
+            'du'            => date('Y-m-d H:i:s')
         );
         // End: customize parameters
 

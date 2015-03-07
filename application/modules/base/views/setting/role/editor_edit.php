@@ -7,7 +7,7 @@
         <!-- end .panel-heading section -->
 
         <form method="post" action="/" id="update-form">
-            <input type="hidden" name="role_id" id="user_id" />
+            <input type="hidden" name="role_id" id="role_id" />
             
             <div class="panel-body p25">
 
@@ -31,8 +31,14 @@
                 </div>
 
                 <div class="section">
-                    <label for="portal_id" class="field prepend-icon">
-                        <input type="text" name="portal_id" id="portal_id" class="gui-input" placeholder="Portal...">
+                    <label for="portal_id" class="field prepend-icon select">
+                        <select name="portal_id" id="portal_id" class="gui-input" placeholder="Portal...">
+                            <option value="">-- Pilih Portal --</option>
+                            <?php foreach ($portal_list as $portal): ?>
+                                <option value="<?php echo $portal['portal_id'] ?>"><?php echo $portal['portal_name'] ?></option>
+                            <?php endforeach ?>
+                        </select>
+                        <i class="arrow"></i>
                         <label for="portal_id" class="field-icon"><i class="fa fa-flag"></i>
                         </label>
                     </label>
@@ -58,7 +64,7 @@
             <!-- end .form-body section -->
 
             <div class="panel-footer">
-                <button type="submit" class="button btn-primary">Save</button>
+                <button type="submit" class="button btn-primary">Simpan</button>
             </div>
             <!-- end .form-footer section -->
         </form>

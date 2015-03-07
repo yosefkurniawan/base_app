@@ -15,6 +15,14 @@ class User_model extends CI_Model {
     /* CRUD MAIN FUNCTIONS
     /* ========================================== */
 
+    /* Get datatables */
+    function get_datatables() {
+        return $this->datatables->select('u.*, r.role_name, r.role_id')
+            ->from($this->crud_table .' u')
+            ->join('core_role_user ru', 'ru.user_id = u.user_id', 'left')
+            ->join('core_role r', 'r.role_id = ru.role_id', 'left');
+    }
+
     /* Get all */
     function get_all($limit, $uri) {
 
@@ -180,13 +188,27 @@ class User_model extends CI_Model {
                 'user_birthday' => date("Y-m-d", strtotime($inputs['user_birthday'])),
                 'user_phone' => $inputs['user_phone'],
                 'user_st' => (isset($inputs['user_st']) && $inputs['user_st'] == '1')? 'active' : 'inactive',
-                'dc' => date('Y-m-d H:i:s'),
+                'dc' => date('Y-m-d H:i:s')
                 );
                 
                 if ($this->db->insert($this->crud_table, $data)) {
-                    // success
-                    $this->message->addSuccess('Data has been inserted successfully.');
-                    $result['success'] = true;
+                    $new_user_id = $this->db->insert_id();
+                    
+                    //save role
+                    $save_role = $this->save_role($inputs['role_id'],$new_user_id);
+
+                    if ($save_role) {
+                        // success
+                        $this->message->addSuccess('Data has been inserted successfully.');
+                        $result['success'] = true;
+                    }else{
+                        // delete if role is not saved
+                        $this->real_delete($new_user_id);
+
+                        // error: unknown
+                        $this->message->addError('An error was occured while saving role.');
+                        $result['success'] = false;
+                    }
                 }else{
                     // error: unknown
                     $this->message->addError('An error was occured while saving data.');
@@ -226,7 +248,7 @@ class User_model extends CI_Model {
             'user_birthday' => date("Y-m-d", strtotime($inputs['user_birthday'])),
             'user_phone' => $inputs['user_phone'],
             'user_st' => (isset($inputs['user_st']) && $inputs['user_st'] == '1')? 'active' : 'inactive',
-            'du' => date('Y-m-d H:i:s'),
+            'du' => date('Y-m-d H:i:s')
             );
 
             if (isset($inputs['change_password']) && $inputs['change_password'] == '1') {
@@ -235,17 +257,29 @@ class User_model extends CI_Model {
 
             $this->db->where($this->id, $id);
             if ($this->db->update($this->crud_table, $data)){
-                // success
-                $this->message->addSuccess('Data has been updated.');
-                $result['message'] = $this->message->render_html();
-                $result['success'] = true;
+                    
+                //save role
+                $save_role = $this->update_role($inputs['role_id'],$id);
+
+                if ($save_role) {
+                    // success
+                    $this->message->addSuccess('Data has been updated.');
+                    $result['success'] = true;
+                }else{
+                    // delete if role is not saved
+                    $this->real_delete($new_user_id);
+
+                    // error: unknown
+                    $this->message->addError('An error was occured while update role.');
+                    $result['success'] = false;
+                }                
             }else{
                 // error: unknown
                 $this->message->addError('An error was occured while saving data.');
-                $result['message'] = $this->message->render_html();
                 $result['success'] = false;
             }
 
+            $result['message'] = $this->message->render_html();
             return $result;
         }else{
             // error: email exists already
@@ -312,6 +346,40 @@ class User_model extends CI_Model {
                 $result['success'] = false;
             }
             return $result;
+        }
+    }
+
+    // real delete data
+    public function real_delete($user_id) {
+        $this->db->where('user_id', $user_id);
+        return $this->db->delete($this->crud_table); 
+    }
+
+    // save new role
+    public function save_role($role_id, $user_id) {
+        $data = array(
+            'role_id' => $role_id,
+            'user_id' => $user_id
+        );
+        
+        if ($this->db->insert('core_role_user', $data)) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    // update role
+    public function update_role($role_id, $user_id) {
+        $data = array(
+            'role_id' => $role_id
+        );
+        
+        $this->db->where('user_id', $user_id);
+        if ($this->db->update('core_role_user', $data)) {
+            return true;
+        }else{
+            return false;
         }
     }
 }

@@ -35,6 +35,9 @@
                 {
                     "data": "user_email"
                 },
+                {
+                    "data": "role_name"
+                },
                 {   
                     "mDataProp": function(data, type, full) {
                         if (data.user_st=='active')
@@ -49,8 +52,10 @@
                 },
                 {   "sClass": "center", "bSortable": false, "bSearchable": false, "sWidth": "100px","mData": 0,
                     "mDataProp": function(data, type, full) {
+                        var id = data.user_id;
                         if (data.user_st!='deleted')
-                            return "<div class='btn-group'><button class='edit btn btn-sm btn-default' data-id='"+data.user_id+"' id='edit-"+data.user_id+"'><icon class='fa fa-pencil'></icon></button><button class='delete btn btn-sm btn-default' data-id='"+data.user_id+"' id='delete-"+data.user_id+"'><icon class='fa fa-trash-o'></icon></button></div>";
+                            return "<div class='btn-group'><button class='edit btn btn-sm btn-default' data-id='"+id+"' id='edit-"+id+"' data-toggle='tooltip' data-placement='top' title='' data-original-title='Edit'><icon class='fa fa-pencil'></icon></button>"+
+                                    "<button class='delete btn btn-sm btn-default' data-id='"+id+"' id='delete-"+id+"' data-toggle='tooltip' data-placement='top' title='' data-original-title='Delete'><icon class='fa fa-trash-o'></icon></button></div>";
                         else
                             return "";
                     }
@@ -101,6 +106,9 @@
                     var data    = datatables.row('#row-'+id).data(); 
                     delete_data(id,data);
                 });
+
+                // init tooltip on button
+                table_ID.find('button').tooltip({trigger: 'hover','placement': 'top'});
             }
         } );
     
@@ -185,6 +193,7 @@
                     $j(update_form).find('#user_phone').val(data.user_phone);
                     $j(update_form).find('#user_birthday').val(data.user_birthday);
                     $j(update_form).find('#user_address').val(data.user_address);
+                    $j(update_form).find('#role_id').val(data.role_id);
                     if (data.user_st == 'active') {
                         $j(update_form).find('#user_st').prop('checked',true);
                     }else{

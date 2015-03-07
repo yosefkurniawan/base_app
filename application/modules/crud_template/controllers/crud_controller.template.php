@@ -51,8 +51,7 @@ class Class_name extends Base {
     }
      
     public function getdatatables() {
-        $this->datatables->select('*')
-                        ->from($this->crud_table);
+        $this->model->get_datatables();
 
         echo $this->datatables->generate();
     }

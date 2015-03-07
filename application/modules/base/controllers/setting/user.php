@@ -20,6 +20,7 @@ class User extends Base {
         // load models
         $this->model_name = array_pop(explode('/', $this->model_path));
         $this->model = $this->load->model($this->model_path, $this->model_name, TRUE);
+        $this->load->model('base/setting/role_model', 'role_model', TRUE);
 
         // add breadcrumbs
         $this->breadcrumb->add('Manajemen '.ucwords($this->crud_for));
@@ -31,6 +32,8 @@ class User extends Base {
         $this->data['getdatatables_url'] = base_url().$this->controller_path.'/getdatatables';
         $this->data['crud_for']          = ucwords($this->crud_for);
 
+        $this->data['role_list']         = $this->role_model->get_all();
+        
         // Prepare the page
         $this->page_title   = "Manajemen ".ucwords($this->crud_for);
         $this->page_content = $this->view_path;
@@ -39,9 +42,7 @@ class User extends Base {
     }
      
     public function getdatatables() {
-        $this->datatables->select('*')
-                        ->from($this->crud_table);
-
+        $this->model->get_datatables();
         echo $this->datatables->generate();
     }
 

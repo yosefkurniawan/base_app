@@ -95,11 +95,31 @@
                     </div>
                 </div>
 
+                <br/>
+                
+                <div class="section-divider mb40">
+                    <span>Role</span>
+                </div>
+
+                <div class="section">
+                    <label for="role_id" class="field prepend-icon select">
+                        <select name="role_id" id="role_id" class="gui-input" placeholder="Portal...">
+                            <option value="">-- Pilih Role --</option>
+                            <?php foreach ($role_list as $portal): ?>
+                                <option value="<?php echo $portal['role_id'] ?>"><?php echo $portal['role_name'] ?></option>
+                            <?php endforeach ?>
+                        </select>
+                        <i class="arrow"></i>
+                        <label for="role_id" class="field-icon"><i class="fa fa-flag"></i>
+                        </label>
+                    </label>
+                </div>
+
             </div>
             <!-- end .form-body section -->
 
             <div class="panel-footer">
-                <button type="submit" class="button btn-primary">Save</button>
+                <button type="submit" class="button btn-primary">Simpan</button>
             </div>
             <!-- end .form-footer section -->
         </form>
