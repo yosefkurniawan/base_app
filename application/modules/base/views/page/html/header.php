@@ -1,6 +1,6 @@
 <header class="navbar navbar-fixed-top bg-light">
     <div class="navbar-branding">
-        <a class="navbar-brand" href="<?php echo base_url('account/dashboard/') ?>"> <b>Admin</b>Designs
+        <a class="navbar-brand" href="<?php echo base_url() ?>"> <b>Admin</b>Designs
         </a>
         <span id="toggle_sidemenu_l" class="glyphicons glyphicons-show_lines"></span>
         <ul class="nav navbar-nav pull-right hidden">

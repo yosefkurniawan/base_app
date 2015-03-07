@@ -8,7 +8,7 @@ class Account extends Base {
 		parent::__construct();
 
 		// models
-		$this->load->model('m_login');
+		$this->load->model('login_model');
 
 		// global vars
 		$this->body_class[] = "login";
@@ -16,7 +16,8 @@ class Account extends Base {
 	}
 
 	public function index(){
-		redirect('account/dashboard/');
+		$session_user = $this->session->userdata('session_user');
+		redirect($session_user['role_default_url']);
 	}
 
 	public function login(){
@@ -32,15 +33,16 @@ class Account extends Base {
 		
 		if ($this->form_validation->run() == TRUE) {
 			// if validation run
-			if ($query = $this->m_login->login_validation(array($this->input->post('username'), $this->input->post('password')))) {
+			if ($query = $this->login_model->login_validation(array($this->input->post('username'), $this->input->post('password')))) {
 				
 				// user log history
-				$this->m_login->user_log_visit(array($query['user_id'], $_SERVER['REMOTE_ADDR']));
+				$login_visit = $this->login_model->user_log_visit(array($query['user_id'], $_SERVER['REMOTE_ADDR']));
 				
 				// session register
+				$query['login_visit'] = $login_visit;
 				$this->session->set_userdata('session_user', $query);
 				
-				redirect('account/dashboard/');
+				redirect($query['role_default_url']);
 				
 			} else {
 				$this->message->addError('Sorry, we can\'t find your account.');
@@ -58,9 +60,10 @@ class Account extends Base {
 	}
 
 	public function logout() {
+
 		// log history
-		$session = $this->session->userdata('session_admin');
-		$this->m_login->user_log_leave($session['user_id']);
+		$session = $this->session->userdata('session_user');
+		$this->login_model->user_log_leave(array($session['user_id'], $session['login_visit']));
 		
 		// destroy the session
 		$this->session->unset_userdata('session_user');

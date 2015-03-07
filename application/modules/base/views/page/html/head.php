@@ -45,7 +45,7 @@
     <![endif]-->
 
     <!-- Start: Scripts -->
-    <?php $this->load->view('html/scripts'); ?>
+    <?php $this->load->view('base/page/html/scripts'); ?>
     <!-- End: Scripts -->
 
     <style type="text/css"></style>

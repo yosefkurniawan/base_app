@@ -1,6 +1,6 @@
 <?php
 
-class M_login extends CI_Model {
+class Login_model extends CI_Model {
 
     function __construct() {
         // Call the Model constructor
@@ -30,13 +30,17 @@ class M_login extends CI_Model {
     function user_log_visit($params) {
         $tanggal = date('Y-m-d h:i:s');
         $sql = "INSERT INTO core_user_log(user_id, ip_address, visit_date) VALUES(?, ?, '$tanggal')";
-        return $this->db->query($sql, $params);
+        if ($this->db->query($sql, $params)) {
+            return $tanggal;
+        }else{
+            return NULL;
+        }
     }
 
     // user Log leave
-    function user_log_leave($params) {
+    function user_log_leave($params) {($params);
         $tanggal = date('Y-m-d h:i:s');
-        $sql = "UPDATE core_user_log SET leave_date = '$tanggal' WHERE user_id = ?";
+        $sql = "UPDATE core_user_log SET leave_date = '$tanggal' WHERE user_id = ? AND visit_date = ?";
         return $this->db->query($sql, $params);
     }
 

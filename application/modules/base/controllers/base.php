@@ -18,7 +18,7 @@ class Base extends MX_Controller {
 		parent::__construct();
 		
 		// load model
-		$this->load->model('base/m_base');
+		$this->load->model('base/base_model','base_model',TRUE);
 
 		// reset the breadcrumbs
 		$this->breadcrumbs_init();
@@ -39,9 +39,11 @@ class Base extends MX_Controller {
 		 * Descripsion:
 		 * Full reference for breadcrumbs is at /libaries/Breadcrumbs.php
 		 */
+		
+		$session_user = $this->session->userdata('session_user');
 
 		$this->breadcrumb->clear();
-		$this->breadcrumb->add('Dashboard','account/ashboard/');
+		$this->breadcrumb->add('Dashboard',base_url().$session_user['role_default_url']);
 		$this->breadcrumb->change_link(' / ');
 	}
 
@@ -53,7 +55,7 @@ class Base extends MX_Controller {
 
 		$menu = array();
 
-		$level_0 	= $this->m_base->get_parent_menu(array($this->portal_id, $this->user['role_id']));
+		$level_0 	= $this->base_model->get_parent_menu(array($this->portal_id, $this->user['role_id']));
 
 		if ($level_0) {
 			$menu 	= $level_0;
@@ -62,14 +64,14 @@ class Base extends MX_Controller {
 			foreach ($level_0 as $key_level_0 => $level_0_value) {
 				$menu[$key_level_0]['child_level_1'] = array();
 
-				if ($level_1 = $this->m_base->get_child_menu(array($level_0_value['menu_id'], $this->user['role_id']))) {
+				if ($level_1 = $this->base_model->get_child_menu(array($level_0_value['menu_id'], $this->user['role_id']))) {
 					$menu[$key_level_0]['child_level_1'] = $level_1;
 
 					// get menu level 2
 					foreach ($level_1 as $key_level_1 => $level_1_value) {
 						$menu[$key_level_0]['child_level_1'][$key_level_1]['child_level_2'] = array();
 						
-						if ($level_2 = $this->m_base->get_child_menu(array($level_1_value['menu_id'], $this->user['role_id']))) {
+						if ($level_2 = $this->base_model->get_child_menu(array($level_1_value['menu_id'], $this->user['role_id']))) {
 							$menu[$key_level_0]['child_level_1'][$key_level_1]['child_level_2'] = $level_2;
 						}
 					};
@@ -101,7 +103,7 @@ class Base extends MX_Controller {
 
 
 	// get user login
-	public function get_user_login() {
+	private function get_user_login() {
 		
 		// get user login
 		$session = $this->session->userdata('session_user');
@@ -129,10 +131,10 @@ class Base extends MX_Controller {
 		}
 
 		// get display page id
-		if ($result = $this->m_base->get_display_page_id($params)) {
+		if ($result = $this->base_model->get_display_page_id($params)) {
 			// get user auth
 			$params = array($this->user['role_id'], $result['menu_id']);
-			$role = $this->m_base->get_user_auth($params);
+			$role = $this->base_model->get_user_auth($params);
 			$this->role = array('C' => substr($role['permission'], 0, 1), 'R' => substr($role['permission'], 1, 1), 'U' => substr($role['permission'], 2, 1), 'D' => substr($role['permission'], 3, 1));
 			if ($this->role[$auth] != '1' || empty($auth)) {
 				redirect('base/error/error_403');
@@ -141,11 +143,47 @@ class Base extends MX_Controller {
 	}
 
 	public function is_ajax() {
-		if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+		if ($this->input->is_ajax_request()) {
 			return true;
 		}else{
 			return false;
 		}
+	}
+
+	public function get_module_path() {
+		$class = $this->router->fetch_class();
+		$uri = $this->uri->uri_string();
+		$uri_array = explode('/', $uri);
+		$path = '';
+		
+		foreach ($uri_array as $key => $value) {
+			if ($value == $class) {
+				break;
+			}
+			
+			$path .= $value.'/';
+		}
+
+		return $path;
+	}
+
+	public function get_class_path() {
+		$class = $this->router->fetch_class();
+		$uri = $this->uri->uri_string();
+		$uri_array = explode('/', $uri);
+		$path = '';
+		
+		foreach ($uri_array as $key => $value) {
+			$path .= $value.'/';
+			if ($value == $class) {
+				if (substr($path, strlen($path)-1, strlen($path)) == '/') {
+					$path = substr($path, 0, strlen($path)-1);
+				}
+				break;
+			}
+		}
+
+		return $path;
 	}
 
 }

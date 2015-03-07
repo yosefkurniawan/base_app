@@ -1,27 +1,33 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
-require_once( APPPATH . 'modules/base/controllers/base.php' );
+require_once( APPPATH . 'modules/admin/controllers/admin.php' );
 
-class Role extends Base {
+class Role extends Admin {
 
     // Start: customize CRUD parameters
-    private $crud_for   = 'role';
     private $crud_table = 'core_role';
-    private $controller_path   = 'base/setting/role';
-    private $model_path        = 'base/setting/role_model';
-    private $view_path         = 'base/setting/role';
     // End: customize CRUD parameters
 
+    private $crud_for;
     private $model_name;
     private $model;
+    private $controller_path;
+    private $model_path;
+    private $view_path;
 
     function __construct() {
         parent::__construct();
 
+        // set vars
+        $this->crud_for         = $this->router->fetch_class();
+        $this->controller_path  = $this->get_class_path();
+        $this->model_path       = $this->get_class_path().'_model';
+        $this->view_path        = $this->get_class_path();
+
         // load models
         $this->model_name = array_pop(explode('/', $this->model_path));
         $this->model = $this->load->model($this->model_path, $this->model_name, TRUE);
-        $this->load->model('base/setting/portal_model', 'portal_model', TRUE);
-        $this->load->model('base/setting/menu_model', 'menu_model', TRUE);
+        $this->load->model($this->get_module_path().'portal_model', 'portal_model', TRUE);
+        $this->load->model('admin/menu_management/menu_model', 'menu_model', TRUE);
 
         // add breadcrumbs
         $this->breadcrumb->add('Manajemen '.ucwords($this->crud_for));

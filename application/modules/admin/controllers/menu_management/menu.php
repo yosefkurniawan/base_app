@@ -1,7 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-require_once( APPPATH . 'modules/base/controllers/base.php' );
+require_once( APPPATH . 'modules/admin/controllers/admin.php' );
 
-class Menu extends Base {
+class Menu extends Admin {
 	public function __construct() {
 		// call the controller construct
 		parent::__construct();
