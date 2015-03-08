@@ -41,3 +41,49 @@ table.dataTable thead th {
 .admin-form .prepend-icon.select > .field-icon {
 	z-index: 10;
 }
+
+/* Start: accordion */
+
+.admin-form .accordion .panel {
+	margin-bottom: 0;
+}
+
+.admin-form .accordion .panel-heading {
+	  padding: 0 8px;
+}
+
+.admin-form .accordion .panel-heading .accordion-toggle {
+	  color: #666666;	
+}
+
+.admin-form .accordion .panel-heading .switch {
+	margin: 0;
+  	vertical-align: middle;
+  	display: inline-block;
+}
+
+.admin-form .accordion .accordion-toggle:hover {
+	cursor: pointer;
+}
+
+/* End: accordion */
+
+/* Start: list on/of form */
+
+.admin-form .accordion .panel-collapse .list-on-of .switch {
+	margin: 0;
+	display: inline-block;
+}
+
+.admin-form .accordion .panel-collapse .list-on-of .row {
+	margin-bottom: 10px;
+  	border-bottom: 1px dotted #ccc;
+}
+
+.admin-form .accordion .panel-collapse .list-on-of .loading {
+	vertical-align:top; 
+	margin-top: 3px; 
+	display: inline-block;
+}
+
+/* End: list on/of form */
