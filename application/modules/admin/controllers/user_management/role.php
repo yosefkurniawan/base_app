@@ -172,4 +172,12 @@ class Role extends Admin {
         
         return $html;
     }
+
+    public function permission_save() {
+        if ($this->input->is_ajax_request()) {
+            echo json_encode($this->model->save_permission());
+        }else{
+            return false;
+        }
+    }
 }
