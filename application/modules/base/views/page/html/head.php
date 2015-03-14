@@ -11,12 +11,13 @@
     <link rel="stylesheet" type="text/css" href="<?php echo skin_url('assets/fonts/open-sans.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?php echo skin_url('assets/fonts/roboto.css') ?>">
 
-    <!-- Theme CSS -->
-    <link rel="stylesheet" type="text/css" href="<?php echo skin_url('assets/skin/default_skin/css/theme.css') ?>">
-
     <!-- Vendor CSS -->
     <link rel="stylesheet" type="text/css" href="<?php echo skin_url('vendor/plugins/magnific/magnific-popup.css') ?>">
+    <link rel="stylesheet" type="text/css" href="<?php echo skin_url('vendor/plugins/fancytree/skin-win8/ui.fancytree.min.css') ?>">
 
+    <!-- Theme CSS -->
+    <link rel="stylesheet" type="text/css" href="<?php echo skin_url('assets/skin/default_skin/css/theme.css') ?>">
+    
     <!-- Admin Forms CSS -->
     <link rel="stylesheet" type="text/css" href="<?php echo skin_url('assets/admin-tools/admin-forms/css/admin-forms.css') ?>">
 

@@ -931,14 +931,6 @@
 
         "use strict";
 
-        // Init Theme Core      
-        Core.init({
-            sbm: "sb-l-c",
-        });
-
-        // Init Demo JS
-        Demo.init();
-
         // Init Widget Demo JS
         // demoHighCharts.init();
 

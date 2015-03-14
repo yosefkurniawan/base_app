@@ -133,7 +133,7 @@
                                     }
                                 ?>
 
-                                <li>
+                                <li <?php echo $activeClass ?>>
                                     <a href="<?php echo base_url().$level_2['menu_url'] ?>">
                                         <span class="glyphicons <?php echo $level_2['menu_icon'] ?>"></span> <?php echo $level_2['menu_name'] ?> </a>
                                 </li>

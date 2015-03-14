@@ -43,10 +43,22 @@
 			<?php $this->load->view('html/topbar'); ?>
 
 			<!-- Start: Content -->
-            <section id="content" class="animated fadeIn">
+			<?php
+				if(is_array($content_class)) {
+					$_content_class = '';
+					foreach ($content_class as $class) {
+						$_content_class .= ' '.$class;
+					}
+				}else{
+					$_content_class = $content_class;
+				}
+			?>
+            <section id="content" class="animated fadeIn <?php echo $_content_class ?>">
 				
 				<!-- global messages -->
-				<?php echo $messages ?>
+				<?php if ($default_msg_placing): ?>
+					<?php echo $messages ?>
+				<?php endif ?>
 				
 				<!-- the real content -->
 				<?php $this->load->view($page_content); ?>

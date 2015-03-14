@@ -41,6 +41,14 @@
                   '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>'+
                   '<i class="fa fa-remove pr10"></i>'+message+
                   '</div>';
+    },
+
+    // scroll to sepcified elm
+    scrollTo: function(elm,time) {
+      var time = time || 1000;
+      $j('html, body').animate({
+          scrollTop: $(elm).offset().top
+      }, time);
     }
 
   });
