@@ -17,14 +17,18 @@ class Account extends Base {
 
 	public function index(){
 		$session_user = $this->session->userdata('session_user');
-		redirect($session_user['role_default_url']);
+		if ($session_user) {
+			redirect($session_user['role_default_url']);
+		}else{
+			redirect(login_url());
+		}
 	}
 
 	public function login(){
 
 		// if user is logged in
 		if (!empty($this->user)) {
-			redirect('account/dashboard/');
+			redirect(login_url());
 		}
 
 		// form validation

@@ -7,10 +7,12 @@ class Base extends MX_Controller {
 	protected $page_title;
 	protected $page_content;
 	protected $body_class;
+	protected $content_class;
 	protected $user;
 	protected $messages;
 	protected $js;
 	protected $css;
+	protected $default_msg_placing = true;
 
 	public function __construct() {
 
@@ -19,6 +21,7 @@ class Base extends MX_Controller {
 		
 		// load model
 		$this->load->model('base/base_model','base_model',TRUE);
+		$this->load->model('admin/menu_management/menu_model','menu_model',TRUE);
 
 		// reset the breadcrumbs
 		$this->breadcrumbs_init();
@@ -55,7 +58,7 @@ class Base extends MX_Controller {
 
 		$menu = array();
 
-		$level_0 	= $this->base_model->get_parent_menu(array($this->portal_id, $this->user['role_id']));
+		$level_0 	= $this->menu_model->get_parent_menu(array($this->portal_id, $this->user['role_id']));
 
 		if ($level_0) {
 			$menu 	= $level_0;
@@ -64,14 +67,14 @@ class Base extends MX_Controller {
 			foreach ($level_0 as $key_level_0 => $level_0_value) {
 				$menu[$key_level_0]['child_level_1'] = array();
 
-				if ($level_1 = $this->base_model->get_child_menu(array($level_0_value['menu_id'], $this->user['role_id']))) {
+				if ($level_1 = $this->menu_model->get_child_menu(array($level_0_value['menu_id'], $this->user['role_id']))) {
 					$menu[$key_level_0]['child_level_1'] = $level_1;
 
 					// get menu level 2
 					foreach ($level_1 as $key_level_1 => $level_1_value) {
 						$menu[$key_level_0]['child_level_1'][$key_level_1]['child_level_2'] = array();
 						
-						if ($level_2 = $this->base_model->get_child_menu(array($level_1_value['menu_id'], $this->user['role_id']))) {
+						if ($level_2 = $this->menu_model->get_child_menu(array($level_1_value['menu_id'], $this->user['role_id']))) {
 							$menu[$key_level_0]['child_level_1'][$key_level_1]['child_level_2'] = $level_2;
 						}
 					};
@@ -86,6 +89,7 @@ class Base extends MX_Controller {
 
 		// prepare all vars
 		$this->data['body_class'] 	= ($this->body_class)? $this->body_class : '';
+		$this->data['content_class']= ($this->content_class)? $this->content_class : '';
 		$this->data['breadcrumbs'] 	= $this->breadcrumbs;
 		$this->data['page_title'] 	= $this->page_title;
 		$this->data['page_content'] = $this->page_content;
@@ -93,6 +97,7 @@ class Base extends MX_Controller {
 		$this->data['messages'] 	= $this->messages;
 		$this->data['js'] 			= $this->js;
 		$this->data['css'] 			= $this->css;
+        $this->data['default_msg_placing'] = $this->default_msg_placing;
 
 		if ($layout_path == '') {
 			$this->load->view('base/page/layout', $this->data);

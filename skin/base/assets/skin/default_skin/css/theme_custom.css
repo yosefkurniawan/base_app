@@ -87,3 +87,18 @@ table.dataTable thead th {
 }
 
 /* End: list on/of form */
+
+/* ======================================================= */
+/*  Menu Tree
+/* ======================================================= */
+
+.ui-fancytree li {
+	position: relative;
+}
+
+.ui-fancytree li .btn-remove {
+	position: absolute;
+  	right: 10px;
+  	top: 9px;
+  	font-size: 16px;
+}

@@ -10,6 +10,11 @@ function skin_url($path = '') {
 	return base_url().'skin/'.$CI->config->item('theme').'/'.$path;
 }
 
+// get login url
+function login_url() {
+	return base_url().'account/login/';
+}
+
 // get logout url
 function logout_url() {
 	return base_url().'account/logout/';
