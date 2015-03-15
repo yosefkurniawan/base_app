@@ -3,6 +3,7 @@
 <script type="text/javascript" src="<?php echo skin_url('vendor/jquery/jquery-1.11.1.min.js') ?>"></script>
 <script type="text/javascript" src="<?php echo skin_url('vendor/jquery/jquery_ui/jquery-ui.min.js') ?>"></script>
 <script type="text/javascript" src="<?php echo skin_url('vendor/jquery/jquery.class.js') ?>"></script>
+<script type="text/javascript" src="<?php echo skin_url('assets/js/jquery.serializefullarray.js') ?>"></script>
 
 <!-- Bootstrap -->
 <script type="text/javascript" src="<?php echo skin_url('assets/js/bootstrap/bootstrap.min.js') ?>"></script>

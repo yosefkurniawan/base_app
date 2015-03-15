@@ -240,7 +240,7 @@
                     $j('#permission-form #role_id').val(data.role_id);
 
                     $j.ajax({
-                        url : '<?php echo base_url()."base/setting/role/get_permission_by_role" ?>',
+                        url : '<?php echo base_url()."admin/user_management/role/get_permission_by_role" ?>',
                         type: "GET",
                         data : {'role_id':data.role_id},
                         dataType: 'html',
@@ -353,44 +353,48 @@
     function permission_save(form) {
         var form = $j(form);
         if (form.valid()) {
-            var formURL = '<?php echo base_url()."base/setting/role/permission_save" ?>';
+            var formURL = '<?php echo base_url()."admin/user_management/role/permission_save" ?>';
             var postData = {};
 
-            var data = {};
-            $j.each(form.serializeArray(), function() {
-                data[this.name] = this.value;
-            });
+            // var data = {};
+            // $j.each(form.serializeArray(), function() {
+            //     data[this.name] = this.value;
+            // });
 
-            postData.id = data.role_id;
-            postData.data = data;
+            var data = $j('#permission-form input[name^=permission]').serializeFullArray()
+
+            postData.id = $j('#permission-form #role_id').val();
+            postData.data = data.permission;
             console.log(data);
 
-            // $j.ajax({
-            //     url : formURL,
-            //     type: "POST",
-            //     data : postData,
-            //     dataType: 'json',
-            //     success:function(data, textStatus, jqXHR) 
-            //     {
-            //         if (data.success) {
-            //             datatables.ajax.reload();
-            //             $j.magnificPopup.close();
-            //             update_form[0].reset();
-            //         }else{
-            //             $j(update_form).find('.panel-body > .alert').remove();
-            //             $j(update_form).find('.panel-body').prepend(data.message);
+            $j.ajax({
+                url : formURL,
+                type: "POST",
+                data : postData,
+                dataType: 'json',
+                success:function(data, textStatus, jqXHR) 
+                {
+                    if (data.success) {
+                        $j.magnificPopup.close();
+                        form[0].reset();
+                        $j('#content > .alert').remove();
+                        $j('#content').prepend(data.message);
+                        globalhelper.scrollTo($j('body'));
+                    }else{
+                        $j(form).find('.panel-body > .alert').remove();
+                        $j(form).find('.panel-body').prepend(data.message);
 
-            //             // animate error entrance
-            //             var animatedObj = update_form.find('.panel-body > .alert');
-            //             var x = 'bounceIn';
-            //             globalhelper.animation(x,animatedObj);
-            //         }
-            //     },
-            //     error: function(jqXHR, textStatus, errorThrown) 
-            //     {
-            //         globalhelper.ajax_error(textStatus);
-            //     }
-            // });
+                        // animate error entrance
+                        var animatedObj = form.find('.panel-body > .alert');
+                        var x = 'bounceIn';
+                        globalhelper.animation(x,animatedObj);
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) 
+                {
+                    globalhelper.ajax_error(textStatus);
+                }
+            });
         };
     }
 
@@ -407,7 +411,11 @@
                 dataType: 'json',
                 success:function(data, textStatus, jqXHR) 
                 {
-                    datatables.ajax.reload();
+                    if (data.success) {
+                        datatables.ajax.reload();
+                    }else{
+                        globalhelper.show_message(data.message,'shake');
+                    }
                 },
                 error: function(jqXHR, textStatus, errorThrown) 
                 {

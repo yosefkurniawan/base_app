@@ -9,10 +9,11 @@ class Base_model extends CI_Model {
 
     // get display page id
     function get_display_page_id($params) {
-        $menu_url = "IF(RIGHT(a.menu_url,1) = '/', IF(LEFT(a.menu_url,1) = '/', a.menu_url, CONCAT('/', a.menu_url)), CONCAT(IF(LEFT(a.menu_url,1) = '/', a.menu_url, CONCAT('/', a.menu_url)), '/'))";
-        $sql = "SELECT a.menu_id, a.menu_name, $menu_url as menu_url
+        // $menu_url = "IF(RIGHT(a.menu_url,1) = '/', IF(LEFT(a.menu_url,1) = '/', a.menu_url, CONCAT('/', a.menu_url)), CONCAT(IF(LEFT(a.menu_url,1) = '/', a.menu_url, CONCAT('/', a.menu_url)), '/'))";
+
+        $sql = "SELECT a.menu_id, a.menu_name, a.menu_url
             FROM core_menu a
-            WHERE $menu_url = '$params'";
+            WHERE a.menu_url = '$params'";
         $query = $this->db->query($sql, $params);
 
         if ($query->num_rows() > 0) {

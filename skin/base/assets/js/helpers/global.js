@@ -29,6 +29,26 @@
       });
     },
 
+    // show Message
+    show_message: function(htmlMsg, animation) {
+      if (typeof animation == 'undefined') {
+        var animation = fadeIn;
+      }else{
+        var animation = animation;
+      }
+
+      if ($j('#content').hasClass('table-layout')) {
+        $j('#content > .tray-center > .alert').remove();
+        $j('#content > .tray-center').prepend(htmlMsg);
+        $j('#content > .tray-center > .alert').addClass('animated '+animation);
+      }else{
+        $j('#content > .alert').remove();
+        $j('#content').prepend(htmlMsg);
+        $j('#content > .alert').addClass('animated '+animation);
+      }
+      globalhelper.scrollTo('body',200);
+    },
+
     // ajax error
     ajax_error: function(msg) {
       var message = '';
@@ -45,7 +65,12 @@
 
     // scroll to sepcified elm
     scrollTo: function(elm,time) {
-      var time = time || 1000;
+      if (typeof time == 'undefined') {
+        var time = 1000;
+      }else{
+        var time = time
+      }
+
       $j('html, body').animate({
           scrollTop: $(elm).offset().top
       }, time);

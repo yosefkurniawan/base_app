@@ -7,6 +7,7 @@
 <!-- begin: .tray-center -->
 <div class="tray tray-center p40 va-t posr">
     
+    <?php echo $messages ?>
     <?php echo $this->load->view('menu_management/menu/menu_editor') ?>
 
 </div>
@@ -301,7 +302,6 @@
             /* ----------------------------------------- */
 
             var showForm = "<?php echo $this->session->flashdata('show_form'); ?>";
-            console.log(showForm);
             if (showForm) {
                 $j('#form-menu-panel').show();
             };

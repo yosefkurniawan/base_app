@@ -88,8 +88,7 @@
                         success:function(data, textStatus, jqXHR) 
                         {
                             if (!data.success) {
-                                $j('#module-conf').parent().find('> .alert').remove();
-                                $j('#module-conf').parent().prepend(data.message);
+                                globalhelper.show_message(data.message);
                             }
                         },
                         error: function(jqXHR, textStatus, errorThrown) 

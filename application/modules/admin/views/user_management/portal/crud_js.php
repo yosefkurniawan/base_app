@@ -284,7 +284,11 @@
                 dataType: 'json',
                 success:function(data, textStatus, jqXHR) 
                 {
-                    datatables.ajax.reload();
+                    if (data.success) {
+                        datatables.ajax.reload();
+                    }else{
+                        globalhelper.show_message(data.message,'shake');
+                    }
                 },
                 error: function(jqXHR, textStatus, errorThrown) 
                 {

@@ -127,13 +127,7 @@ class Base extends MX_Controller {
 
 	public function check_auth($auth) {
 		
-		$params = $_SERVER['PATH_INFO'];
-		if (substr($params, 0, 1) != '/') {
-			$params = '/'.$params;
-		}
-		if (substr($params, strlen($params)-1, strlen($params)) != '/') {
-			$params = $params.'/';
-		}
+		$params = $this->get_class_path();
 
 		// get display page id
 		if ($result = $this->base_model->get_display_page_id($params)) {
@@ -141,10 +135,27 @@ class Base extends MX_Controller {
 			$params = array($this->user['role_id'], $result['menu_id']);
 			$role = $this->base_model->get_user_auth($params);
 			$this->role = array('C' => substr($role['permission'], 0, 1), 'R' => substr($role['permission'], 1, 1), 'U' => substr($role['permission'], 2, 1), 'D' => substr($role['permission'], 3, 1));
-			if ($this->role[$auth] != '1' || empty($auth)) {
-				redirect('base/error/error_403');
+			if ($this->role[strtoupper($auth)] != '1' || empty($auth)) {
+				if (!$this->input->is_ajax_request()) {
+					redirect('base/error/error_403');
+				}else{
+					return false;
+				}
+			}else{
+				return true;
 			}
 		}
+	}
+
+	public function get_auth_error() {
+        $this->message->addError('Anda tidak memiliki hak akses.');
+        if ($this->input->is_ajax_request()) {
+	        $result['message'] = $this->message->render_html();
+        }else{
+	        $result['message'] = $this->message->render();
+        }
+        $result['success'] = false;
+        return $result;
 	}
 
 	public function is_ajax() {

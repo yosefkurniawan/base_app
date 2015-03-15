@@ -175,5 +175,39 @@ class Role_model extends CI_Model {
         }
     }
 
+    public function save_permission() {
+        $role_id    = $this->input->post('id');
+        $data       = $this->input->post('data');
+        $count_saved = 0;
+
+        foreach ($data as $key => $value) {
+            $menu_id    = $key;
+            $permission = $value['c'].$value['r'].$value['u'].$value['d'];
+
+            // check whether row exists or not
+            $this->db->where('role_id', $role_id);
+            $this->db->where('menu_id', $menu_id);
+            $check = $this->db->get('core_permission');
+
+            if ($check->num_rows() > 0) { // update if exists
+                $this->db->where('role_id', $role_id);
+                $this->db->where('menu_id', $menu_id);
+                if ($this->db->update('core_permission', array('permission'=>$permission))){
+                    $count_saved++;
+                }
+            } else { // save as new row
+                if ($this->db->insert('core_permission', array('role_id'=>$role_id,'menu_id'=>$menu_id,'permission'=>$permission))) {
+                    $count_saved++;
+                }
+            }
+        }
+        $this->message->addSuccess('Hak akses berhasil disimpan.');
+        $result['success'] = true;
+        $result['message'] = $this->message->render_html();
+        $result['debug']['count_saved'] = $count_saved;
+        return $result;
+    }
+
+
 }
 ?>

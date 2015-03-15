@@ -57,7 +57,7 @@ class Message {
       foreach ($this->errorMsg as $msg) {
         $output .= '<div class="alert alert-warning alert-dismissable">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                    <i class="fa fa-remove pr10"></i>
+                    <i class="fa fa-warning pr10"></i>
                     ' . $msg . '
                     </div>';
       }
@@ -75,7 +75,7 @@ class Message {
       foreach ($this->successMsg as $msg) {
         $output .= '<div class="alert alert-success alert-dismissable">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                    <i class="fa fa-remove pr10"></i>
+                    <i class="fa fa-check pr10"></i>
                     ' . $msg . '
                     </div>';
       }

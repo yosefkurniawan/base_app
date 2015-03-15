@@ -6,15 +6,10 @@
         
         <div class="panel-heading">
             <span class="panel-title"></i>Editor Menu</span>
-            <span class="panel-controls">
-                <a href="#" class="panel-control-loader"><i class="fa fa-trash"></i></a>
-            </span>
         </div>
 
         <div class="panel-body bg-light">
-                
-                <?php echo $messages ?>
-                
+                        
                 <div class="section">
                     <label for="menu_name" class="field-label">Nama Menu <em>*</em></label>
                     <label for="menu_name" class="field prepend-icon">

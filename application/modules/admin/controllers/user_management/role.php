@@ -17,6 +17,9 @@ class Role extends Admin {
     function __construct() {
         parent::__construct();
 
+        // check permission
+        $this->check_auth('R');
+
         // set vars
         $this->crud_for         = $this->router->fetch_class();
         $this->controller_path  = $this->get_class_path();
@@ -62,11 +65,23 @@ class Role extends Admin {
         $action = $this->input->post('action');
         
         if ($action == 'edit') {
-            $result = $this->model->update();
+            if($this->check_auth('U')){ // check permission
+                $result = $this->model->update();
+            }else{
+                $result = $this->get_auth_error();
+            }
         }elseif ($action == 'create') {
-            $result = $this->model->save();
+            if($this->check_auth('C')){ // check permission
+                $result = $this->model->save();
+            }else{
+                $result = $this->get_auth_error();
+            }
         }elseif ($action == 'remove') {
-            $result = $this->model->delete();
+            if($this->check_auth('D')){ // check permission
+                $result = $this->model->delete();
+            }else{
+                $result = $this->get_auth_error();
+            }
         }else{
             // nothing to do
         }
@@ -171,5 +186,15 @@ class Role extends Admin {
         }
         
         return $html;
+    }
+
+    public function permission_save() {
+        $this->check_auth('C'); // check permission
+        $this->check_auth('U'); // check permission
+        if ($this->input->is_ajax_request()) {
+            echo json_encode($this->model->save_permission());
+        }else{
+            return false;
+        }
     }
 }
