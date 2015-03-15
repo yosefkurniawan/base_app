@@ -201,9 +201,10 @@ class Role_model extends CI_Model {
                 }
             }
         }
-        $this->message->addSuccess($count_saved.' baris data berhasil disimpan.');
+        $this->message->addSuccess('Hak akses berhasil disimpan.');
         $result['success'] = true;
         $result['message'] = $this->message->render_html();
+        $result['debug']['count_saved'] = $count_saved;
         return $result;
     }
 

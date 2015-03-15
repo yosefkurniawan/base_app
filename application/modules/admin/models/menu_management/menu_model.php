@@ -18,6 +18,12 @@ class Menu_model extends CI_Model {
         unset($data['action']);
         unset($data['menu_id']);
 
+        // validate menu_url
+        $menu_url = $data['menu_url'];
+        $menu_url = $this->validate_menu_url($menu_url);
+        $data['menu_url'] = $menu_url;
+
+        // menu order
         $data['menu_order'] = $this->get_new_order($data['parent_id']);
 
         // get latest order number of current parent
@@ -42,6 +48,11 @@ class Menu_model extends CI_Model {
         $data = $inputs;
         unset($data['action']);
         unset($data['menu_id']);
+
+        // validate menu_url
+        $menu_url = $data['menu_url'];
+        $menu_url = $this->validate_menu_url($menu_url);
+        $data['menu_url'] = $menu_url;
 
         // get menu
         $old_data       = $this->get_menu($id);
@@ -243,7 +254,12 @@ class Menu_model extends CI_Model {
         WHERE parent_id = $parent_id";
 
         $query = $this->db->query($sql);
-        return $query->row()->new_order;
+        if ($query->row()->new_order) {
+            $new_menu_order = $query->row()->new_order;
+        }else{
+            $new_menu_order = '1';
+        }
+        return $new_menu_order;
     }
 
     // get a menu
@@ -255,6 +271,16 @@ class Menu_model extends CI_Model {
         }else{
             return array();
         }
+    }
+
+    private function validate_menu_url($menu_url) {
+        if (substr($menu_url, 0, 1) == '/') {
+            $menu_url = substr($menu_url, 1, strlen($menu_url));
+        }
+        if (substr($menu_url, strlen($menu_url)-1, strlen($menu_url)) == '/') {
+            $menu_url = substr($menu_url, 0, strlen($menu_url)-1);
+        }
+        return $menu_url;
     }
 }
 ?>

@@ -11,6 +11,8 @@
                 success:function(data){
                     if (data.success) {
                         $(elm).closest('li').remove();
+                    }else{
+                        globalhelper.show_message(data.message,'shake');
                     }
                 },
                 error: function() {

@@ -18,6 +18,9 @@ class Menu extends Admin {
     function __construct() {
         parent::__construct();
 
+        // check permission
+        $this->check_auth('R');
+
         // set vars (can be customized)
         $this->crud_for         = $this->router->fetch_class();
         $this->controller_path  = $this->get_class_path();
@@ -91,17 +94,23 @@ class Menu extends Admin {
 
     public function submit() {
         $action = $this->input->post('action');
-        
+
         if ($action == 'edit') {
+            $this->check_auth('U'); // check permission
             $result = $this->model->update();
             $this->session->set_flashdata('show_form',true);
             redirect($this->get_class_path());
         }elseif ($action == 'create') {
+            $this->check_auth('C'); // check permission
             $result = $this->model->save();
             $this->session->set_flashdata('show_form',true);
             redirect($this->get_class_path());
         }elseif ($action == 'remove') {
-            $result = $this->model->delete();
+            if($this->check_auth('D')){ // check permission
+                $result = $this->model->delete();
+            }else{
+                $result = $this->get_auth_error();
+            }
         }else{
             // nothing to do
         }
@@ -110,6 +119,7 @@ class Menu extends Admin {
     }
 
     public function submit_order() {
+        $this->check_auth('U'); // check permission
     	if ($this->input->is_ajax_request()) {
     		$this->model->submit_order();
     	}

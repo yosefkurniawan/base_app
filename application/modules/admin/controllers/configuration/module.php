@@ -8,6 +8,9 @@ class Module extends Admin {
     function __construct() {
         parent::__construct();
 
+        // check permission
+        $this->check_auth('R');
+
         // load models
         $this->model = $this->load->model('configuration/modules_model', 'modules_model', TRUE);
 
@@ -28,6 +31,9 @@ class Module extends Admin {
     }
      
     public function submit() {
+
+        // check permission
+        $this->check_auth('U');
 
         if ($this->input->is_ajax_request()) {
             if ($this->modules_model->save()) {

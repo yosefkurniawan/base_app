@@ -17,6 +17,9 @@ class User extends Admin {
     function __construct() {
         parent::__construct();
 
+        // check permission
+        $this->check_auth('R');
+
         // set vars
         $this->crud_for         = $this->router->fetch_class();
         $this->controller_path  = $this->get_class_path();
@@ -56,15 +59,26 @@ class User extends Admin {
         $action = $this->input->post('action');
         
         if ($action == 'edit') {
-            $result = $this->model->update();
+            if($this->check_auth('U')){ // check permission
+                $result = $this->model->update();
+            }else{
+                $result = $this->get_auth_error();
+            }
         }elseif ($action == 'create') {
-            $result = $this->model->save();
+            if($this->check_auth('C')){ // check permission
+                $result = $this->model->save();
+            }else{
+                $result = $this->get_auth_error();
+            }
         }elseif ($action == 'remove') {
-            $result = $this->model->delete();
+            if($this->check_auth('D')){ // check permission
+                $result = $this->model->delete();
+            }else{
+                $result = $this->get_auth_error();
+            }
         }else{
             // nothing to do
         }
-
         echo json_encode($result);
     }
 
