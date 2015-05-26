@@ -165,7 +165,8 @@ class Role_model extends CI_Model {
         $sql = "SELECT m.menu_name, p.*
                 FROM core_menu  m
                 LEFT JOIN core_permission p ON m.menu_id = p.menu_id
-                WHERE role_id = $role_id";
+                WHERE role_id = $role_id
+                ORDER BY m.menu_id, m.parent_id";
         $sql_result = $this->db->query($sql);
 
         if ($sql_result->num_rows() > 0){
